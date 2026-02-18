@@ -1,0 +1,556 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Portfolio Header - Slate & Emerald</title>
+
+    <!-- Tailwind CSS CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Font Awesome for icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* Custom styles for smooth transitions */
+        .nav-link {
+            position: relative;
+            transition: color 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            width: 0;
+            height: 2px;
+            bottom: -4px;
+            left: 0;
+            background-color: #10B981;
+            transition: width 0.3s ease;
+        }
+
+        .nav-link:hover::after {
+            width: 100%;
+        }
+
+        .mobile-menu {
+            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
+        }
+
+        .mobile-menu.hidden {
+            transform: translateY(-10px);
+            opacity: 0;
+            pointer-events: none;
+        }
+
+        .social-icon {
+            transition: color 0.3s ease, transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            color: #10B981;
+            transform: translateY(-2px);
+        }
+
+        /* Cursor animation */
+        .typing-cursor {
+            display: inline-block;
+            width: 4px;
+            height: 1.2em;
+            background-color: #10B981;
+            margin-left: 4px;
+            animation: blink 1s infinite;
+            vertical-align: middle;
+        }
+
+        @keyframes blink {
+
+            0%,
+            50% {
+                opacity: 1;
+            }
+
+            51%,
+            100% {
+                opacity: 0;
+            }
+        }
+
+        .typing-text {
+            min-height: 3.5rem;
+            display: inline-block;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-50">
+    <!-- Header Section -->
+    <header class="w-full sticky top-0 z-50">
+        <!-- Top Bar - Slate background with Emerald accents -->
+        <div class="bg-[#334155] text-white py-2 px-4 md:px-8">
+            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm">
+                <!-- Contact Info -->
+                <div class="flex items-center space-x-4 mb-2 sm:mb-0">
+                    <a href="tel:+977 9704508525"
+                        class="flex items-center space-x-2 hover:text-[#10B981] transition-colors">
+                        <i class="fas fa-phone-alt text-[#10B981] text-xs"></i>
+                        <span>+977 9704508525</span>
+                    </a>
+                    <span class="text-gray-400 hidden sm:inline">|</span>
+                    <a href="mailto:sudamshrestha939@gmail.com"
+                        class="flex items-center space-x-2 hover:text-[#10B981] transition-colors">
+                        <i class="fas fa-envelope text-[#10B981] text-xs"></i>
+                        <span>sudamshrestha939@gmail.com</span>
+                    </a>
+                </div>
+
+                <!-- Social Media Links -->
+                <div class="flex items-center space-x-4">
+                    <a href="https://github.com/sudam-shrestha" class="social-icon" target="_blank">
+                        <i class="fab fa-github text-lg"></i>
+                    </a>
+                    <a href="https://www.linkedin.com/in/sudam-shrestha/" class="social-icon" target="_blank">
+                        <i class="fab fa-linkedin-in text-lg"></i>
+                    </a>
+                    <a href="https://www.facebook.com/sudam.shrestha.98" class="social-icon" target="_blank">
+                        <i class="fab fa-facebook-f text-lg"></i>
+                    </a>
+                    <a href="#" class="social-icon" target="_blank">
+                        <i class="fab fa-instagram text-lg"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main Navigation -->
+        <nav class="bg-white shadow-md py-4 px-4 md:px-8">
+            <div class="max-w-7xl mx-auto flex justify-between items-center">
+                <!-- Logo/Brand -->
+                <div class="flex items-center space-x-2">
+                    <div class="w-10 h-10 bg-[#10B981] rounded-lg flex items-center justify-center">
+                        <i class="fas fa-code text-white text-xl"></i>
+                    </div>
+                    <div>
+                        <h1 class="text-xl font-bold text-[#334155]">Sudam Shrestha</h1>
+                        <p class="text-xs text-gray-500">Full Stack Developer & Mentor</p>
+                    </div>
+                </div>
+
+                <!-- Desktop Navigation - Right side -->
+                <div class="hidden md:flex items-center space-x-8">
+                    <a href="#home" class="nav-link text-[#334155] font-medium">Home</a>
+                    <a href="#about" class="nav-link text-[#334155] font-medium">About</a>
+                    <a href="#skills" class="nav-link text-[#334155] font-medium">Skills</a>
+                    <a href="#projects" class="nav-link text-[#334155] font-medium">Projects</a>
+                    <a href="#contact" class="nav-link text-[#334155] font-medium">Contact</a>
+
+                    <!-- Mentor Badge -->
+                    <div class="bg-[#10B981] bg-opacity-10 px-4 py-2 rounded-full flex items-center space-x-2">
+                        <i class="fas fa-chalkboard-teacher text-[#10B981]"></i>
+                        <span class="text-[#10B981] font-semibold text-sm">Code IT Dharan</span>
+                    </div>
+                </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="menuBtn" class="md:hidden text-[#334155] focus:outline-none">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
+            </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu"
+                class="mobile-menu hidden md:hidden mt-4 bg-white rounded-lg shadow-xl absolute left-4 right-4 z-50 p-4 border-t-4 border-[#10B981]">
+                <div class="flex flex-col space-y-3">
+                    <a href="#home"
+                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Home</a>
+                    <a href="#about"
+                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">About</a>
+                    <a href="#skills"
+                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Skills</a>
+                    <a href="#projects"
+                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Projects</a>
+                    <a href="#contact"
+                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Contact</a>
+
+                    <div class="pt-2 mt-2 border-t border-gray-200">
+                        <div class="bg-[#10B981] bg-opacity-10 px-4 py-3 rounded-lg">
+                            <div class="flex items-center space-x-2">
+                                <i class="fas fa-map-marker-alt text-[#10B981]"></i>
+                                <span class="text-[#334155] font-medium">Code IT Dharan, Nepal</span>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </header>
+
+
+    <main>
+        <!-- Hero Section -->
+        <section id="home" class="relative py-12 md:py-20 overflow-hidden bg-gradient-to-br from-gray-50 to-white">
+            <!-- Background Decorative Elements -->
+            <div class="absolute top-0 right-0 w-64 h-64 bg-[#10B981] opacity-5 rounded-full -mr-32 -mt-32"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#334155] opacity-5 rounded-full -ml-48 -mb-48"></div>
+
+            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+                <div class="grid md:grid-cols-2 gap-12 items-center">
+
+                    <!-- Left Content -->
+                    <div class="space-y-6">
+                        <!-- Welcome Badge -->
+                        <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-4 py-2">
+                            <i class="fas fa-code text-[#10B981] mr-2"></i>
+                            <span class="text-[#10B981] font-medium text-sm">Welcome to my portfolio</span>
+                        </div>
+
+                        <!-- Name & Title with Typing Animation -->
+                        <div class="space-y-2">
+                            <h2 class="text-[#334155] text-lg md:text-xl font-medium">Hi, I'm</h2>
+                            <div class="text-4xl md:text-5xl font-bold text-[#10B981]">
+                                <span id="typing-role"></span>
+                                <span class="typing-cursor"></span>
+                            </div>
+                        </div>
+
+                        <!-- Description -->
+                        <p class="text-gray-600 text-lg leading-relaxed max-w-lg">
+                            Crafting robust web applications and mentoring the next generation of developers at
+                            <span class="text-[#10B981] font-semibold">Code IT Dharan</span>. Passionate about clean
+                            code
+                            and innovative solutions.
+                        </p>
+
+                        <!-- Stats / Highlights -->
+                        <div class="flex flex-wrap gap-6 pt-4">
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-[#334155]">5+</div>
+                                <div class="text-sm text-gray-500">Years Experience</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-[#334155]">50+</div>
+                                <div class="text-sm text-gray-500">Projects Completed</div>
+                            </div>
+                            <div class="text-center">
+                                <div class="text-3xl font-bold text-[#334155]">200+</div>
+                                <div class="text-sm text-gray-500">Students Mentored</div>
+                            </div>
+                        </div>
+
+                        <!-- CTA Buttons -->
+                        <div class="flex flex-wrap gap-4 pt-4">
+                            <a href="#contact"
+                                class="group relative px-8 py-4 bg-[#10B981] text-white font-semibold rounded-lg overflow-hidden transition-all hover:bg-[#0e9e6e] hover:shadow-lg">
+                                <span class="relative z-10">Hire Me</span>
+                                <div
+                                    class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left opacity-20">
+                                </div>
+                            </a>
+
+                            <a href="#projects"
+                                class="px-8 py-4 bg-white text-[#334155] font-semibold rounded-lg border-2 border-[#334155] hover:bg-[#334155] hover:text-white transition-all hover:shadow-lg">
+                                View Projects
+                            </a>
+
+                            <a href="/images/cv.pdf" target="_blank"
+                                class="px-8 py-4 bg-[#334155] bg-opacity-5 text-[#334155] font-semibold rounded-lg hover:bg-[#334155] hover:text-white transition-all hover:shadow-lg">
+                                <i class="fas fa-download mr-2"></i> Resume
+                            </a>
+                        </div>
+
+                        <!-- Tech Stack Icons -->
+                        <div class="pt-6">
+                            <p class="text-sm text-gray-500 mb-3">Tech Stack & Tools</p>
+                            <div class="flex flex-wrap gap-3">
+                                <span
+                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
+                                    <i class="fab fa-laravel text-[#FF2D20]"></i>
+                                </span>
+                                <span
+                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
+                                    <i class="fab fa-python text-[#3776AB]"></i>
+                                </span>
+                                <span
+                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
+                                    <i class="fab fa-js text-[#F7DF1E]"></i>
+                                </span>
+                                <span
+                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
+                                    <i class="fab fa-react text-[#61DAFB]"></i>
+                                </span>
+                                <span
+                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
+                                    <i class="fab fa-vuejs text-[#4FC08D]"></i>
+                                </span>
+                                <span
+                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
+                                    <i class="fab fa-php text-[#777BB4]"></i>
+                                </span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right Content - Image/Placeholder -->
+                    <div class="relative flex justify-center items-center">
+                        <!-- Main Image Container -->
+                        <div class="relative w-full max-w-md mx-auto">
+                            <!-- Background Decoration -->
+                            <div class="absolute inset-0 bg-[#10B981] rounded-3xl rotate-6 opacity-10"></div>
+                            <div class="absolute inset-0 bg-[#334155] rounded-3xl -rotate-3 opacity-10"></div>
+
+                            <!-- Image/Placeholder Card -->
+                            <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-white">
+                                <!-- Gradient Overlay -->
+                                <div class="absolute inset-0 bg-gradient-to-t from-[#334155] to-transparent opacity-20">
+                                </div>
+
+                                <!-- Placeholder/Image -->
+                                <div
+                                    class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
+                                    <img src="/images/profile.jpg" alt="Sudam Shrestha"
+                                        class="w-full h-full object-cover">
+                                </div>
+
+                                <!-- Floating Badges -->
+                                <div
+                                    class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
+                                    <div class="flex items-center gap-2">
+                                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
+                                        <span class="text-sm font-medium text-[#334155]">Available for work</span>
+                                    </div>
+                                </div>
+
+                                <div
+                                    class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
+                                    <div class="flex items-center gap-2">
+                                        <i class="fas fa-map-marker-alt text-[#10B981]"></i>
+                                        <span class="text-sm font-medium text-[#334155]">Dharan, Nepal</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Decorative Dots -->
+                        <div class="absolute -z-10 -bottom-4 -right-4 w-32 h-32">
+                            <div class="grid grid-cols-3 gap-2">
+                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
+                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
+                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
+                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
+                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
+                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+
+        <!-- About Section -->
+        <section id="about" class="py-16 md:py-24 bg-white relative overflow-hidden">
+            <!-- Subtle Background Decorations -->
+            <div class="absolute top-0 left-0 w-96 h-96 bg-[#10B981] opacity-5 rounded-full -ml-48 -mt-32"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 bg-[#334155] opacity-5 rounded-full -mr-40 -mb-40"></div>
+
+            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+                <!-- Section Header -->
+                <div class="text-center mb-12 md:mb-16">
+                    <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-5 py-2 mb-4">
+                        <i class="fas fa-user-circle text-[#10B981] mr-2"></i>
+                        <span class="text-[#10B981] font-medium text-sm uppercase tracking-wide">About Me</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-[#334155] mb-4">
+                        Get to Know <span class="text-[#10B981]">Me</span>
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                        Full Stack Developer & Mentor passionate about building scalable applications and helping others
+                        grow in tech.
+                    </p>
+                </div>
+
+                <div class="grid md:grid-cols-12 gap-10 lg:gap-16 items-center">
+                    <!-- Left - Image / Visual -->
+                    <div class="md:col-span-5 lg:col-span-4 relative">
+                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
+                            <!-- Decorative layers -->
+                            <div class="absolute inset-0 bg-gradient-to-br from-[#10B981]/10 to-transparent"></div>
+                            <div class="absolute inset-0 bg-gradient-to-t from-[#334155]/20 to-transparent"></div>
+
+                            <img src="/images/profile.jpg" alt="Sudam Shrestha working on code"
+                                class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
+                        </div>
+
+                        <!-- Floating stats card -->
+                        <div
+                            class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 hidden sm:block">
+                            <div class="text-center">
+                                <div class="text-4xl font-bold text-[#10B981]">200+</div>
+                                <div class="text-sm text-gray-600 mt-1">Students Mentored</div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Right - Content -->
+                    <div class="md:col-span-7 lg:col-span-8 space-y-8">
+                        <!-- Intro paragraph -->
+                        <div class="space-y-4">
+                            <h3 class="text-2xl md:text-3xl font-bold text-[#334155]">
+                                Hi, I'm pratik rai<span class="text-[#10B981]">.</span>
+                            </h3>
+                            <p class="text-gray-700 text-lg leading-relaxed">
+                                I'm a passionate <strong class="text-[#10B981]">Full Stack Developer</strong> and
+                                <strong class="text-[#10B981]">Mentor</strong> based in Dharan, Nepal.
+                                With over <strong>5 years</strong> of experience, I specialize in building modern,
+                                performant web applications using
+                                <strong>Laravel</strong>, <strong>React</strong>, <strong>Node.js</strong>,
+                                <strong>Vue</strong>, <strong>Python</strong> and more.
+                            </p>
+                            <p class="text-gray-700 text-lg leading-relaxed">
+                                Currently, I lead training and mentoring sessions at <strong class="text-[#10B981]">Code
+                                    IT Dharan</strong>,
+                                where I've helped 200+ students launch their careers in web development through hands-on
+                                projects and real-world problem solving.
+                            </p>
+                        </div>
+
+                        <!-- Personal highlights / What I do -->
+                        <div class="grid sm:grid-cols-2 gap-6 pt-4">
+                            <div
+                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 hover:border-[#10B981]/50 transition-colors group">
+                                <div
+                                    class="w-14 h-14 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#10B981] transition-colors">
+                                    <i
+                                        class="fas fa-code text-[#10B981] text-2xl group-hover:text-white transition-colors"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold text-[#334155] mb-2">Clean & Scalable Code</h4>
+                                <p class="text-gray-600">
+                                    I follow best practices, write maintainable code, and focus on performance &
+                                    security.
+                                </p>
+                            </div>
+
+                            <div
+                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 hover:border-[#10B981]/50 transition-colors group">
+                                <div
+                                    class="w-14 h-14 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#10B981] transition-colors">
+                                    <i
+                                        class="fas fa-chalkboard-teacher text-[#10B981] text-2xl group-hover:text-white transition-colors"></i>
+                                </div>
+                                <h4 class="text-xl font-semibold text-[#334155] mb-2">Teaching & Mentoring</h4>
+                                <p class="text-gray-600">
+                                    Passionate about sharing knowledge — from beginners to advanced concepts.
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Extra info / CTA -->
+                        <div class="pt-6 flex flex-wrap gap-4">
+                            <a href="#contact"
+                                class="px-8 py-4 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#0e9e6e] transition-all shadow-md hover:shadow-lg inline-flex items-center">
+                                <span>Let's Work Together</span>
+                                <i class="fas fa-arrow-right ml-2"></i>
+                            </a>
+
+                            <a href="#"
+                                class="px-8 py-4 border-2 border-[#334155] text-[#334155] font-semibold rounded-lg hover:bg-[#334155] hover:text-white transition-all inline-flex items-center">
+                                <i class="fas fa-download mr-2"></i>
+                                Download CV
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+    </main>
+
+    <!-- JavaScript for Mobile Menu Toggle and Typing Animation -->
+    <script>
+        document.addEventListener('DOMContentLoaded', function () {
+            // Mobile Menu Toggle
+            const menuBtn = document.getElementById('menuBtn');
+            const mobileMenu = document.getElementById('mobileMenu');
+
+            menuBtn.addEventListener('click', function () {
+                mobileMenu.classList.toggle('hidden');
+
+                // Toggle menu icon between bars and times
+                const icon = menuBtn.querySelector('i');
+                if (mobileMenu.classList.contains('hidden')) {
+                    icon.className = 'fas fa-bars text-2xl';
+                } else {
+                    icon.className = 'fas fa-times text-2xl';
+                }
+            });
+
+            // Close mobile menu when clicking on a link
+            const mobileLinks = mobileMenu.querySelectorAll('a');
+            mobileLinks.forEach(link => {
+                link.addEventListener('click', function () {
+                    mobileMenu.classList.add('hidden');
+                    const icon = menuBtn.querySelector('i');
+                    icon.className = 'fas fa-bars text-2xl';
+                });
+            });
+
+            // Close mobile menu when clicking outside
+            document.addEventListener('click', function (event) {
+                if (!menuBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
+                    mobileMenu.classList.add('hidden');
+                    const icon = menuBtn.querySelector('i');
+                    icon.className = 'fas fa-bars text-2xl';
+                }
+            });
+
+
+            const roleElement = document.getElementById('typing-role');
+
+            const roles = [
+                "pratik rai",
+                "Full Stack Developer",
+                "Tech Mentor",
+                "Laravel & React Specialist",
+                "Code Teacher",
+                "Problem Solver",
+                "Open to Opportunities"
+            ];
+
+            let roleIndex = 0;
+            let charIndex = 0;
+            let isDeleting = false;
+
+            function typeRole() {
+                const currentRole = roles[roleIndex];
+
+                if (isDeleting) {
+                    roleElement.textContent = currentRole.substring(0, charIndex - 1);
+                    charIndex--;
+                } else {
+                    roleElement.textContent = currentRole.substring(0, charIndex + 1);
+                    charIndex++;
+                }
+
+                let speed = isDeleting ? 60 : 100;
+
+                if (!isDeleting && charIndex === currentRole.length) {
+                    speed = 2000;           // pause at end
+                    isDeleting = true;
+                } else if (isDeleting && charIndex === 0) {
+                    isDeleting = false;
+                    roleIndex = (roleIndex + 1) % roles.length;
+                    speed = 400;            // small pause before next word
+                }
+
+                setTimeout(typeRole, speed);
+            }
+
+            // Start typing
+            typeRole();
+        });
+    </script>
+
+</body>
+
+</html>
