@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -13,6 +12,9 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        html{
+            scroll-behavior: smooth;
+        }
         /* Custom styles for smooth transitions */
         .nav-link {
             position: relative;
@@ -81,9 +83,17 @@
             min-height: 3.5rem;
             display: inline-block;
         }
+
+        /* Skill card hover effect */
+        .skill-card {
+            transition: all 0.3s ease;
+        }
+        .skill-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
+        }
     </style>
 </head>
-
 <body class="bg-gray-50">
     <!-- Header Section -->
     <header class="w-full sticky top-0 z-50">
@@ -113,13 +123,13 @@
                     <a href="https://www.linkedin.com/in/pratik-rai-4b07a41ab/" class="social-icon" target="_blank">
                         <i class="fab fa-linkedin-in text-lg"></i>
                     </a>
-                    <a href="https://www.facebook.com/sudam.shrestha.98" class="social-icon" target="_blank">
+                    <a href="https://www.facebook.com/pratika.ra.i.329839" class="social-icon" target="_blank">
                         <i class="fab fa-facebook-f text-lg"></i>
                     </a>
                     <a href="https://wa.me/98055303811" target="_blank">
                         <i class="fa-brands fa-whatsapp"></i>
                     </a>
-                    <a href="#" class="social-icon" target="_blank">
+                    <a href="https://www.instagram.com/sekaidim/" class="social-icon" target="_blank">
                         <i class="fab fa-instagram text-lg"></i>
                     </a>
                 </div>
@@ -145,7 +155,7 @@
                     <a href="#home" class="nav-link text-[#334155] font-medium">Home</a>
                     <a href="#about" class="nav-link text-[#334155] font-medium">About</a>
                     <a href="#skills" class="nav-link text-[#334155] font-medium">Skills</a>
-                    <a href="#projects" class="nav-link text-[#334155] font-medium">Projects</a>
+                    <!-- <a href="#projects" class="nav-link text-[#334155] font-medium">Projects</a> -->
                     <a href="#contact" class="nav-link text-[#334155] font-medium">Contact</a>
 
                     <!-- Mentor Badge -->
@@ -311,7 +321,7 @@
                                 <!-- Placeholder/Image -->
                                 <div
                                     class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                                    <img src="/images/Bibers.jfif" alt="pratik rai"
+                                    <img src="images/_MG_9284.JPG" alt="pratik rai"
                                         class="w-full h-full object-cover">
                                 </div>
 
@@ -381,7 +391,7 @@
                             <div class="absolute inset-0 bg-gradient-to-br from-[#10B981]/10 to-transparent"></div>
                             <div class="absolute inset-0 bg-gradient-to-t from-[#334155]/20 to-transparent"></div>
 
-                            <img src="/images/Bibers.jfif" alt="pratik rai working on code"
+                            <img src="images/_MG_9274.JPG" alt="pratik rai working on code"
                                 class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
                         </div>
 
@@ -467,6 +477,359 @@
             </div>
         </section>
 
+        <!-- ===== NEW SKILLS SECTION (HERO STYLE) ===== -->
+        <section id="skills" class="relative py-16 md:py-24 bg-gray-50 overflow-hidden">
+            <!-- Background decorative elements -->
+            <div class="absolute top-0 right-0 w-72 h-72 bg-[#10B981] opacity-5 rounded-full -mr-36 -mt-36"></div>
+            <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#334155] opacity-5 rounded-full -ml-48 -mb-48"></div>
+
+            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+                <!-- Section Header with overline badge -->
+                <div class="text-center mb-12 md:mb-16">
+                    <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-5 py-2 mb-4">
+                        <i class="fas fa-code-branch text-[#10B981] mr-2"></i>
+                        <span class="text-[#10B981] font-medium text-sm uppercase tracking-wide">Expertise</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-[#334155] mb-4">
+                        Technical <span class="text-[#10B981]">Skills</span>
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                        A comprehensive toolkit I use to build robust, scalable, and user-friendly applications.
+                    </p>
+                </div>
+
+                <!-- Skills Grid – Hero style: cards with icons and proficiency -->
+                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
+                    <!-- Frontend Development -->
+                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-paint-brush text-[#10B981] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#334155]">Frontend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-html5 text-orange-500 mr-1"></i> HTML5</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-css3-alt text-blue-500 mr-1"></i> CSS3</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-js text-yellow-500 mr-1"></i> JavaScript</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-react text-[#61DAFB] mr-1"></i> React</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-vuejs text-green-500 mr-1"></i> Vue</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-bootstrap text-purple-500 mr-1"></i> Bootstrap</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-tailwindcss text-teal-500 mr-1"></i> Tailwind</span>
+                        </div>
+                        <!-- subtle proficiency indicator -->
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span class="mr-2">Proficiency</span>
+                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full w-10/12 bg-[#10B981] rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Backend Development -->
+                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-server text-[#10B981] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#334155]">Backend</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-php text-[#777BB4] mr-1"></i> PHP</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-laravel text-[#FF2D20] mr-1"></i> Laravel</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-python text-[#3776AB] mr-1"></i> Python</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-node text-green-600 mr-1"></i> Node.js</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-database text-gray-600 mr-1"></i> Express</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-fire text-orange-500 mr-1"></i> Firebase</span>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span class="mr-2">Proficiency</span>
+                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full w-11/12 bg-[#10B981] rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Database & DevOps -->
+                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-database text-[#10B981] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#334155]">Data & DevOps</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-database text-blue-600 mr-1"></i> MySQL</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-mediumz text-[#334155] flex items-center"><i class="fas fa-leaf text-green-600 mr-1"></i> MongoDB</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-cloud text-blue-400 mr-1"></i> PostgreSQL</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-git-alt text-orange-600 mr-1"></i> Git</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-docker text-blue-500 mr-1"></i> Docker</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-terminal text-gray-700 mr-1"></i> Linux</span>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span class="mr-2">Proficiency</span>
+                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full w-9/12 bg-[#10B981] rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Tools & Workflow -->
+                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-tools text-[#10B981] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#334155]">Tools & Workflow</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-github text-black mr-1"></i> GitHub</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-gitlab text-orange-500 mr-1"></i> GitLab</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-code text-blue-500 mr-1"></i> VS Code</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-pencil-ruler text-purple-500 mr-1"></i> Figma</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-cloud text-gray-500 mr-1"></i> Postman</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-chart-line text-green-600 mr-1"></i> Jira</span>
+                        </div>
+                        <div class="mt-4 flex items-center text-xs text-gray-500">
+                            <span class="mr-2">Proficiency</span>
+                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
+                                <div class="h-full w-10/12 bg-[#10B981] rounded-full"></div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Soft Skills / Mentoring -->
+                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-users text-[#10B981] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#334155]">Professional</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Mentoring</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Team Leadership</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Agile/Scrum</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Problem Solving</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Communication</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Technical Writing</span>
+                        </div>
+                        <!-- no proficiency bar for soft skills, but a subtle badge -->
+                        <div class="mt-4">
+                            <span class="inline-block text-xs bg-[#10B981] bg-opacity-10 text-[#10B981] px-3 py-1 rounded-full">Core strengths</span>
+                        </div>
+                    </div>
+
+                    <!-- Currently Exploring / Learning -->
+                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30 relative overflow-hidden">
+                        <!-- tiny decorative element -->
+                        <div class="absolute top-0 right-0 w-16 h-16 bg-[#10B981] opacity-5 rounded-bl-full"></div>
+                        <div class="flex items-center space-x-3 mb-4">
+                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
+                                <i class="fas fa-rocket text-[#10B981] text-xl"></i>
+                            </div>
+                            <h3 class="text-xl font-bold text-[#334155]">Exploring</h3>
+                        </div>
+                        <div class="flex flex-wrap gap-2">
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-aws text-orange-400 mr-1"></i> AWS</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-python text-[#3776AB] mr-1"></i> TensorFlow</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-mobile-alt text-gray-600 mr-1"></i> React Native</span>
+                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-robot text-green-600 mr-1"></i> LangChain</span>
+                        </div>
+                        <div class="mt-4 text-xs text-[#10B981] font-medium flex items-center">
+                            <i class="fas fa-spinner fa-pulse mr-1"></i> Always learning
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional bottom CTA / note -->
+                <div class="text-center mt-12">
+                    <p class="text-gray-500 flex items-center justify-center gap-2">
+                        <i class="fas fa-crown text-[#10B981]"></i>
+                        <span>Continuous learner, passionate about clean architecture and mentoring.</span>
+                    </p>
+                </div>
+            </div>
+        </section>
+
+                <section id="contact" class="relative py-16 md:py-24 bg-white overflow-hidden">
+            <!-- Background decorative elements (consistent with other sections) -->
+            <div class="absolute top-0 left-0 w-96 h-96 bg-[#10B981] opacity-5 rounded-full -ml-48 -mt-48"></div>
+            <div class="absolute bottom-0 right-0 w-80 h-80 bg-[#334155] opacity-5 rounded-full -mr-40 -mb-40"></div>
+            
+            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
+                <!-- Section Header with badge -->
+                <div class="text-center mb-12 md:mb-16">
+                    <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-5 py-2 mb-4">
+                        <i class="fas fa-paper-plane text-[#10B981] mr-2"></i>
+                        <span class="text-[#10B981] font-medium text-sm uppercase tracking-wide">Get in touch</span>
+                    </div>
+                    <h2 class="text-4xl md:text-5xl font-bold text-[#334155] mb-4">
+                        Let's <span class="text-[#10B981]">Connect</span>
+                    </h2>
+                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
+                        Have a project in mind or want to discuss mentoring? I'd love to hear from you.
+                    </p>
+                </div>
+
+                <!-- Contact grid: left info / right form -->
+                <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
+                    
+                    <!-- LEFT: Contact information cards -->
+                    <div class="space-y-8">
+                        <!-- Intro text -->
+                        <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm">
+                            <h3 class="text-2xl font-bold text-[#334155] mb-3">Let's build something great together</h3>
+                            <p class="text-gray-600 leading-relaxed">
+                                Whether it's about a full-stack project, mentoring opportunities, or just a tech chat, 
+                                I'm always open to new connections. Reach out via the form or directly through any of these channels.
+                            </p>
+                        </div>
+
+                        <!-- Contact details (cards) -->
+                        <div class="grid sm:grid-cols-2 gap-5">
+                            <!-- Email card -->
+                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
+                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-envelope text-[#10B981] text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Email</h4>
+                                <a href="mailto:pratik.rai2580@gmail.com" class="text-gray-600 hover:text-[#10B981] transition break-all">
+                                    pratik.rai2580@gmail.com
+                                </a>
+                                <p class="text-xs text-gray-400 mt-2">Reply within 24h</p>
+                            </div>
+
+                            <!-- Phone card -->
+                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
+                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-phone-alt text-[#10B981] text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Phone</h4>
+                                <a href="tel:+9779805303811" class="text-gray-600 hover:text-[#10B981] transition">
+                                    +977 9805303811
+                                </a>
+                                <p class="text-xs text-gray-400 mt-2">Weekdays 9am-6pm</p>
+                            </div>
+
+                            <!-- Location card -->
+                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
+                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-map-marker-alt text-[#10B981] text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Location</h4>
+                                <p class="text-gray-600">Dharan, Nepal</p>
+                                <p class="text-xs text-gray-400 mt-2">Code IT Dharan (mentoring hub)</p>
+                            </div>
+
+                            <!-- Mentoring hours card -->
+                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
+                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
+                                    <i class="fas fa-chalkboard-teacher text-[#10B981] text-xl"></i>
+                                </div>
+                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Mentoring hours</h4>
+                                <p class="text-gray-600">Sat-Thu, 10am-5pm</p>
+                                <p class="text-xs text-gray-400 mt-2">(closed on Fridays)</p>
+                            </div>
+                        </div>
+
+                        <!-- Social links with larger presence (consistent with top bar but more prominent) -->
+                        <div class="bg-gradient-to-r from-[#334155]/5 to-[#10B981]/5 p-6 rounded-3xl border border-gray-100">
+                            <p class="text-sm font-medium text-[#334155] mb-3 flex items-center"><i class="fab fa-connectdevelop text-[#10B981] mr-2"></i> Connect on social</p>
+                            <div class="flex flex-wrap gap-4">
+                                <a href="https://github.com/Sekaidim2002" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
+                                    <i class="fab fa-github text-[#334155] text-xl"></i>
+                                </a>
+                                <a href="https://www.linkedin.com/in/pratik-rai-4b07a41ab/" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
+                                    <i class="fab fa-linkedin-in text-[#334155] text-xl"></i>
+                                </a>
+                                <a href="https://www.facebook.com/pratika.ra.i.329839" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
+                                    <i class="fab fa-facebook-f text-[#334155] text-xl"></i>
+                                </a>
+                                <a href="https://wa.me/98055303811" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
+                                    <i class="fab fa-whatsapp text-[#334155] text-xl"></i>
+                                </a>
+                                <a href="https://www.instagram.com/sekaidim/" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
+                                    <i class="fab fa-instagram text-[#334155] text-xl"></i>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- RIGHT: Contact form -->
+                    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 md:p-8 lg:p-10">
+                        <div class="mb-6">
+                            <h3 class="text-2xl font-bold text-[#334155]">Send a message</h3>
+                            <p class="text-gray-500 text-sm mt-1">I'll get back to you as soon as possible.</p>
+                        </div>
+
+                        <form action="#" method="POST" class="space-y-5">
+                            <!-- Name field -->
+                            <div>
+                                <label for="name" class="block text-sm font-medium text-[#334155] mb-1">Full name</label>
+                                <input type="text" id="name" name="name" placeholder="Pratik Rai" 
+                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition">
+                            </div>
+
+                            <!-- Email field -->
+                            <div>
+                                <label for="email" class="block text-sm font-medium text-[#334155] mb-1">Email address</label>
+                                <input type="email" id="email" name="email" placeholder="you@example.com" 
+                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition">
+                            </div>
+
+                            <!-- Subject field -->
+                            <div>
+                                <label for="subject" class="block text-sm font-medium text-[#334155] mb-1">Subject</label>
+                                <input type="text" id="subject" name="subject" placeholder="Project inquiry / Mentoring" 
+                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition">
+                            </div>
+
+                            <!-- Message field -->
+                            <div>
+                                <label for="message" class="block text-sm font-medium text-[#334155] mb-1">Message</label>
+                                <textarea id="message" name="message" rows="5" placeholder="Tell me about your idea or question..." 
+                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition resize-none"></textarea>
+                            </div>
+
+                            <!-- Submit button (emerald with effect) -->
+                            <button type="submit" 
+                                class="group relative w-full md:w-auto px-8 py-4 bg-[#10B981] text-white font-semibold rounded-xl overflow-hidden transition-all hover:bg-[#0e9e6e] hover:shadow-lg flex items-center justify-center gap-2">
+                                <span class="relative z-10">Send message</span>
+                                <i class="fas fa-paper-plane relative z-10 text-sm transition-transform group-hover:translate-x-1"></i>
+                                <div class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left opacity-20"></div>
+                            </button>
+
+                            <!-- simple note -->
+                            <p class="text-xs text-gray-400 flex items-center gap-1 pt-2">
+                                <i class="fas fa-lock text-[#10B981]"></i> 
+                                Your info is safe and will never be shared.
+                            </p>
+                        </form>
+
+                        <!-- optional quick contact alternative -->
+                        <div class="mt-8 pt-6 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
+                            <span class="text-sm text-gray-500">Prefer email?</span>
+                            <a href="mailto:pratik.rai2580@gmail.com" class="inline-flex items-center text-[#10B981] font-medium hover:underline">
+                                pratik.rai2580@gmail.com <i class="fas fa-arrow-right ml-1 text-xs"></i>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Optional bottom decorative map / badge (simple card) -->
+                <div class="mt-16 text-center">
+                    <div class="inline-flex items-center gap-2 bg-gray-50 px-6 py-3 rounded-full border border-gray-200">
+                        <i class="fas fa-map-pin text-[#10B981]"></i>
+                        <span class="text-[#334155] font-medium">Based in Dharan, Nepal — open for remote work & mentoring</span>
+                        <span class="flex h-2 w-2 relative">
+                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
+                            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </section>
     </main>
 
     <!-- JavaScript for Mobile Menu Toggle and Typing Animation -->
@@ -553,7 +916,5 @@
             typeRole();
         });
     </script>
-
 </body>
-
 </html>
