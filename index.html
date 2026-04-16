@@ -1,921 +1,1168 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="icon" type="image/x-icon" href="images/img2.jpg">
-    <title>Portfolio Header - Slate & Emerald</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>pratik@rai:~$ portfolio</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:ital,wght@0,100..800;1,100..800&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0a0a0a;
+  --fg: #33ff00;
+  --amber: #ffb000;
+  --muted: #1f521f;
+  --border: #1f521f;
+  --error: #ff3333;
+  --dim: #0d2e0d;
+  --glow: 0 0 6px rgba(51,255,0,0.45);
+  --glow-sm: 0 0 3px rgba(51,255,0,0.3);
+}
 
-    <!-- Tailwind CSS CDN -->
-    <script src="https://cdn.tailwindcss.com"></script>
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
+html { scroll-behavior: smooth; }
 
-    <!-- Font Awesome for icons -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+body {
+  background: var(--bg);
+  color: var(--fg);
+  font-family: 'JetBrains Mono', 'Fira Code', monospace;
+  font-size: 14px;
+  line-height: 1.6;
+  overflow-x: hidden;
+  cursor: default;
+}
 
-    <style>
-        html{
-            scroll-behavior: smooth;
-        }
-        /* Custom styles for smooth transitions */
-        .nav-link {
-            position: relative;
-            transition: color 0.3s ease;
-        }
+/* CRT Scanlines overlay */
+body::before {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: repeating-linear-gradient(
+    0deg,
+    transparent,
+    transparent 2px,
+    rgba(0,0,0,0.08) 2px,
+    rgba(0,0,0,0.08) 4px
+  );
+  pointer-events: none;
+  z-index: 9999;
+}
 
-        .nav-link::after {
-            content: '';
-            position: absolute;
-            width: 0;
-            height: 2px;
-            bottom: -4px;
-            left: 0;
-            background-color: #10B981;
-            transition: width 0.3s ease;
-        }
+/* CRT vignette */
+body::after {
+  content: '';
+  position: fixed;
+  inset: 0;
+  background: radial-gradient(ellipse at center, transparent 60%, rgba(0,0,0,0.5) 100%);
+  pointer-events: none;
+  z-index: 9998;
+}
 
-        .nav-link:hover::after {
-            width: 100%;
-        }
+a { color: var(--fg); text-decoration: none; }
+a:hover { text-shadow: var(--glow); }
 
-        .mobile-menu {
-            transition: transform 0.3s ease-in-out, opacity 0.3s ease-in-out;
-        }
+/* ── SCROLLBAR ── */
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg); }
+::-webkit-scrollbar-thumb { background: var(--muted); }
+::-webkit-scrollbar-thumb:hover { background: var(--fg); }
 
-        .mobile-menu.hidden {
-            transform: translateY(-10px);
-            opacity: 0;
-            pointer-events: none;
-        }
+/* ── ANIMATIONS ── */
+@keyframes blink { 0%,49% { opacity:1; } 50%,100% { opacity:0; } }
+@keyframes scanline {
+  0% { top: -100%; }
+  100% { top: 100%; }
+}
+@keyframes glitch {
+  0%,94%,100% { transform: translate(0); filter: none; }
+  95% { transform: translate(-2px, 1px); filter: hue-rotate(90deg); }
+  97% { transform: translate(2px, -1px); filter: hue-rotate(-90deg); }
+}
+@keyframes fadeInUp {
+  from { opacity: 0; transform: translateY(12px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+@keyframes pulse-glow {
+  0%,100% { box-shadow: 0 0 4px rgba(51,255,0,0.3); }
+  50% { box-shadow: 0 0 12px rgba(51,255,0,0.7); }
+}
+@keyframes spin { to { transform: rotate(360deg); } }
 
-        .social-icon {
-            transition: color 0.3s ease, transform 0.3s ease;
-        }
+/* ── CURSOR ── */
+.cursor {
+  display: inline-block;
+  width: 9px; height: 1.1em;
+  background: var(--fg);
+  vertical-align: text-bottom;
+  animation: blink 1s step-end infinite;
+  box-shadow: var(--glow);
+}
 
-        .social-icon:hover {
-            color: #10B981;
-            transform: translateY(-2px);
-        }
+/* ── TEXT GLOW ── */
+.glow { text-shadow: var(--glow); }
+.glow-sm { text-shadow: var(--glow-sm); }
+.amber { color: var(--amber); text-shadow: 0 0 6px rgba(255,176,0,0.5); }
+.error { color: var(--error); }
+.muted { color: var(--muted); }
+.dim { color: #3a7a3a; }
 
-        /* Cursor animation */
-        .typing-cursor {
-            display: inline-block;
-            width: 4px;
-            height: 1.2em;
-            background-color: #10B981;
-            margin-left: 4px;
-            animation: blink 1s infinite;
-            vertical-align: middle;
-        }
+/* ── WINDOW / PANE ── */
+.pane {
+  border: 1px solid var(--border);
+  background: var(--bg);
+  animation: fadeInUp 0.4s ease both;
+}
+.pane-header {
+  background: var(--fg);
+  color: #000;
+  padding: 3px 10px;
+  font-weight: 700;
+  font-size: 12px;
+  letter-spacing: 0.1em;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  text-transform: uppercase;
+}
+.pane-header .dots {
+  display: flex; gap: 5px;
+}
+.pane-header .dot {
+  width: 8px; height: 8px;
+  background: #000;
+  border: 1px solid rgba(0,0,0,0.4);
+}
+.pane-body { padding: 16px; }
 
-        @keyframes blink {
+/* ── SECTION DIVIDER ── */
+.divider {
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin: 0;
+  overflow: hidden;
+  white-space: nowrap;
+  font-size: 12px;
+}
 
-            0%,
-            50% {
-                opacity: 1;
-            }
+/* ── BUTTONS ── */
+.btn {
+  display: inline-block;
+  padding: 8px 20px;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  background: transparent;
+  font-family: inherit;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: all 0.15s;
+  position: relative;
+  text-shadow: var(--glow-sm);
+}
+.btn::before { content: '[ '; }
+.btn::after { content: ' ]'; }
+.btn:hover {
+  background: var(--fg);
+  color: #000;
+  text-shadow: none;
+  box-shadow: var(--glow);
+}
+.btn:active { transform: translateY(1px); }
+.btn-amber {
+  border-color: var(--amber);
+  color: var(--amber);
+  text-shadow: 0 0 6px rgba(255,176,0,0.4);
+}
+.btn-amber:hover {
+  background: var(--amber);
+  color: #000;
+  box-shadow: 0 0 10px rgba(255,176,0,0.6);
+}
 
-            51%,
-            100% {
-                opacity: 0;
-            }
-        }
+/* ── PROGRESS BAR ── */
+.progress-wrap { font-size: 13px; margin: 6px 0; }
+.progress-label { display: flex; justify-content: space-between; margin-bottom: 3px; }
+.progress-bar {
+  font-size: 13px;
+  color: var(--fg);
+  letter-spacing: 0;
+  text-shadow: var(--glow-sm);
+}
 
-        .typing-text {
-            min-height: 3.5rem;
-            display: inline-block;
-        }
+/* ── NAV ── */
+#topbar {
+  position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+  background: var(--bg);
+  border-bottom: 1px solid var(--border);
+}
+#topbar-inner {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 10px 24px;
+  max-width: 1200px; margin: 0 auto;
+}
+.nav-logo {
+  font-size: 13px;
+  font-weight: 700;
+  text-shadow: var(--glow);
+  animation: glitch 8s infinite;
+}
+.nav-logo .prompt { color: var(--amber); text-shadow: 0 0 6px rgba(255,176,0,0.5); }
+.nav-links { display: flex; gap: 0; align-items: center; }
+.nav-links a {
+  padding: 6px 14px;
+  font-size: 12px;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--muted);
+  border: 1px solid transparent;
+  transition: all 0.2s;
+  position: relative;
+}
+.nav-links a::before { content: './'; color: #1f521f; }
+.nav-links a:hover {
+  color: var(--fg);
+  border-color: var(--border);
+  text-shadow: var(--glow-sm);
+}
+.nav-status {
+  font-size: 11px;
+  color: var(--muted);
+  display: flex; align-items: center; gap: 8px;
+}
+.status-dot {
+  width: 6px; height: 6px;
+  background: var(--fg);
+  border-radius: 0;
+  display: inline-block;
+  animation: blink 2s step-end infinite;
+  box-shadow: var(--glow-sm);
+}
 
-        /* Skill card hover effect */
-        .skill-card {
-            transition: all 0.3s ease;
-        }
-        .skill-card:hover {
-            transform: translateY(-5px);
-            box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04);
-        }
-    </style>
+/* Mobile hamburger */
+#nav-toggle { display: none; background: none; border: 1px solid var(--border); color: var(--fg); padding: 4px 10px; font-family: inherit; font-size: 18px; cursor: pointer; }
+#mobile-nav {
+  display: none;
+  border-top: 1px solid var(--border);
+  background: var(--bg);
+  padding: 12px 24px;
+  flex-direction: column; gap: 4px;
+}
+#mobile-nav.open { display: flex; }
+#mobile-nav a { padding: 8px 0; font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; color: var(--muted); border-bottom: 1px solid var(--dim); }
+#mobile-nav a::before { content: '> '; color: var(--fg); }
+
+/* ── MAIN ── */
+main { padding-top: 60px; max-width: 1200px; margin: 0 auto; padding-left: 24px; padding-right: 24px; }
+
+/* ── HERO ── */
+#home { padding: 60px 0 40px; }
+.hero-grid { display: grid; grid-template-columns: 1fr 380px; gap: 40px; align-items: start; }
+.hero-prompt {
+  font-size: 13px;
+  color: var(--amber);
+  margin-bottom: 8px;
+  text-shadow: 0 0 6px rgba(255,176,0,0.4);
+}
+.hero-name {
+  font-size: clamp(28px, 4vw, 48px);
+  font-weight: 800;
+  text-shadow: var(--glow);
+  line-height: 1.1;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+.hero-role {
+  font-size: clamp(14px, 2vw, 18px);
+  color: var(--amber);
+  margin: 6px 0 20px;
+  min-height: 26px;
+  text-shadow: 0 0 6px rgba(255,176,0,0.4);
+}
+.hero-desc {
+  color: #5a8a5a;
+  font-size: 13px;
+  line-height: 1.8;
+  max-width: 540px;
+  margin-bottom: 28px;
+}
+.hero-desc .hl { color: var(--fg); text-shadow: var(--glow-sm); }
+.hero-stats {
+  display: flex; gap: 32px;
+  margin-bottom: 28px;
+}
+.stat-item { text-align: left; }
+.stat-num {
+  font-size: 28px;
+  font-weight: 800;
+  text-shadow: var(--glow);
+  line-height: 1;
+}
+.stat-bar { font-size: 10px; color: var(--fg); text-shadow: var(--glow-sm); margin: 2px 0; }
+.stat-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.1em; }
+.hero-btns { display: flex; flex-wrap: wrap; gap: 12px; margin-bottom: 32px; }
+.tech-stack-label { font-size: 11px; color: var(--muted); text-transform: uppercase; letter-spacing: 0.12em; margin-bottom: 10px; }
+.tech-stack-label::before { content: '# '; }
+.tech-tags { display: flex; flex-wrap: wrap; gap: 8px; }
+.tech-tag {
+  font-size: 11px;
+  border: 1px solid var(--muted);
+  padding: 3px 10px;
+  color: var(--muted);
+  transition: all 0.2s;
+}
+.tech-tag:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+  text-shadow: var(--glow-sm);
+}
+
+/* Hero right panel */
+.hero-panel {
+  border: 1px solid var(--border);
+  font-size: 12px;
+}
+.hero-panel-title {
+  background: var(--dim);
+  padding: 6px 12px;
+  font-size: 11px;
+  color: var(--muted);
+  border-bottom: 1px solid var(--border);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.hero-panel-body { padding: 14px; }
+.sys-line { display: flex; justify-content: space-between; padding: 4px 0; border-bottom: 1px solid var(--dim); font-size: 12px; }
+.sys-line:last-child { border-bottom: none; }
+.sys-key { color: var(--muted); }
+.sys-val { color: var(--fg); text-shadow: var(--glow-sm); }
+.sys-val.amber { color: var(--amber); text-shadow: 0 0 4px rgba(255,176,0,0.4); }
+.available-badge {
+  margin-top: 14px;
+  padding: 8px 12px;
+  border: 1px solid var(--fg);
+  display: flex; align-items: center; gap: 8px;
+  animation: pulse-glow 2s ease infinite;
+}
+.available-badge .dot {
+  width: 8px; height: 8px;
+  background: var(--fg);
+  box-shadow: var(--glow);
+  animation: blink 1.5s step-end infinite;
+}
+
+/* ASCII art block */
+.ascii-art {
+  font-size: 10px;
+  line-height: 1.2;
+  color: var(--muted);
+  letter-spacing: 0.05em;
+  margin-bottom: 20px;
+  text-shadow: none;
+  overflow: hidden;
+}
+
+/* ── SECTIONS COMMON ── */
+section { padding: 40px 0; border-top: 1px solid var(--dim); }
+.section-header { margin-bottom: 28px; }
+.section-cmd {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  margin-bottom: 4px;
+}
+.section-cmd::before { content: '$ cat '; color: var(--amber); }
+.section-title {
+  font-size: clamp(20px, 3vw, 30px);
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  text-shadow: var(--glow);
+  line-height: 1;
+}
+.section-sub { font-size: 12px; color: var(--muted); margin-top: 6px; }
+
+/* ── ABOUT ── */
+.about-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.about-img-wrap { position: relative; }
+.about-img-frame {
+  border: 1px solid var(--border);
+  overflow: hidden;
+  position: relative;
+}
+.about-img-frame::after {
+  content: '';
+  position: absolute; inset: 0;
+  background: linear-gradient(180deg, transparent 60%, rgba(0,0,0,0.7));
+}
+.about-img-frame img { width: 100%; display: block; filter: grayscale(0.3) contrast(1.1); }
+.about-img-label {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  padding: 10px 12px;
+  font-size: 11px;
+  color: var(--fg);
+  z-index: 1;
+  text-shadow: var(--glow-sm);
+}
+.about-img-corner {
+  position: absolute;
+  font-size: 10px;
+  color: var(--muted);
+}
+.about-img-corner.tl { top: 8px; left: 8px; }
+.about-img-corner.tr { top: 8px; right: 8px; }
+.about-log { font-size: 13px; line-height: 1.9; }
+.log-line { display: flex; gap: 10px; margin-bottom: 6px; }
+.log-ts { color: var(--muted); white-space: nowrap; font-size: 11px; padding-top: 2px; }
+.log-msg { color: #5a8a5a; }
+.log-msg .hl { color: var(--fg); text-shadow: var(--glow-sm); }
+.about-cards { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; margin-top: 20px; }
+.about-card {
+  border: 1px solid var(--border);
+  padding: 14px;
+  font-size: 12px;
+  transition: border-color 0.2s;
+}
+.about-card:hover { border-color: var(--fg); box-shadow: inset 0 0 20px rgba(51,255,0,0.03); }
+.about-card-icon { font-size: 18px; margin-bottom: 8px; }
+.about-card-title { font-size: 12px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 6px; color: var(--fg); text-shadow: var(--glow-sm); }
+.about-card-body { color: var(--muted); font-size: 11px; line-height: 1.6; }
+
+/* ── SKILLS ── */
+.skills-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 16px; }
+.skill-pane { border: 1px solid var(--border); }
+.skill-pane-head {
+  padding: 8px 12px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  display: flex; align-items: center; gap: 8px;
+  background: var(--dim);
+}
+.skill-pane-head .cat { color: var(--amber); text-shadow: 0 0 4px rgba(255,176,0,0.4); }
+.skill-pane-body { padding: 12px; }
+.skill-tags { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 12px; }
+.skill-tag {
+  font-size: 11px;
+  border: 1px solid var(--muted);
+  padding: 2px 8px;
+  color: #3a7a3a;
+  transition: all 0.15s;
+}
+.skill-tag:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+  text-shadow: var(--glow-sm);
+}
+.skill-bar-row { margin-top: 8px; }
+.skill-bar-label { display: flex; justify-content: space-between; font-size: 10px; color: var(--muted); margin-bottom: 3px; text-transform: uppercase; }
+.bar-track { background: var(--dim); height: 10px; border: 1px solid var(--border); position: relative; }
+.bar-fill { height: 100%; background: var(--fg); box-shadow: var(--glow-sm); transition: width 1.2s ease; }
+.bar-fill.amber { background: var(--amber); box-shadow: 0 0 4px rgba(255,176,0,0.4); }
+.learning-badge {
+  display: inline-block;
+  font-size: 10px;
+  border: 1px solid var(--amber);
+  color: var(--amber);
+  padding: 2px 8px;
+  text-transform: uppercase;
+  margin-top: 8px;
+}
+.loading-spinner::before {
+  content: '⟳ ';
+  display: inline-block;
+  animation: spin 2s linear infinite;
+}
+
+/* ── CONTACT ── */
+.contact-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 32px; }
+.contact-info { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-bottom: 16px; }
+.contact-card {
+  border: 1px solid var(--border);
+  padding: 12px;
+  font-size: 12px;
+  transition: border-color 0.2s;
+}
+.contact-card:hover { border-color: var(--fg); }
+.contact-card-key { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.1em; margin-bottom: 4px; }
+.contact-card-key::before { content: '> '; color: var(--fg); }
+.contact-card-val { color: var(--fg); text-shadow: var(--glow-sm); font-size: 12px; word-break: break-all; }
+.contact-card-note { color: var(--muted); font-size: 10px; margin-top: 3px; }
+.social-row { display: flex; gap: 8px; flex-wrap: wrap; }
+.social-btn {
+  border: 1px solid var(--muted);
+  padding: 6px 14px;
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  transition: all 0.15s;
+  cursor: pointer;
+  text-decoration: none;
+  display: inline-block;
+}
+.social-btn:hover {
+  border-color: var(--fg);
+  color: var(--fg);
+  text-shadow: var(--glow-sm);
+}
+
+/* Form */
+.form-wrap { border: 1px solid var(--border); }
+.form-title {
+  padding: 8px 14px;
+  border-bottom: 1px solid var(--border);
+  font-size: 11px;
+  background: var(--dim);
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+.form-body { padding: 16px; }
+.form-field { margin-bottom: 14px; }
+.form-label {
+  font-size: 11px;
+  color: var(--muted);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  margin-bottom: 4px;
+  display: block;
+}
+.form-label::before { content: '$ '; color: var(--fg); }
+.form-input-wrap {
+  display: flex; align-items: center;
+  border-bottom: 1px solid var(--border);
+  padding: 4px 0;
+}
+.form-input-wrap:focus-within { border-color: var(--fg); }
+.form-input-wrap .prompt-char { color: var(--amber); margin-right: 8px; font-size: 13px; flex-shrink: 0; }
+.form-input {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 13px;
+  width: 100%;
+  caret-color: var(--fg);
+}
+.form-input::placeholder { color: var(--muted); }
+.form-textarea {
+  background: transparent;
+  border: none;
+  outline: none;
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 13px;
+  width: 100%;
+  resize: none;
+  caret-color: var(--fg);
+  line-height: 1.6;
+}
+.form-textarea::placeholder { color: var(--muted); }
+.form-submit {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  border: 1px solid var(--fg);
+  color: var(--fg);
+  font-family: inherit;
+  font-size: 13px;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  cursor: pointer;
+  transition: all 0.15s;
+  text-shadow: var(--glow-sm);
+  position: relative;
+}
+.form-submit::before { content: '[ '; }
+.form-submit::after { content: ' ]'; }
+.form-submit:hover {
+  background: var(--fg);
+  color: #000;
+  text-shadow: none;
+  box-shadow: var(--glow);
+}
+
+/* ── FOOTER ── */
+footer {
+  border-top: 1px solid var(--border);
+  padding: 20px 0;
+  margin-top: 20px;
+}
+.footer-inner {
+  max-width: 1200px; margin: 0 auto;
+  padding: 0 24px;
+  display: flex; align-items: center; justify-content: space-between;
+  font-size: 11px;
+  color: var(--muted);
+}
+.footer-inner .prompt-path { color: var(--amber); }
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .hero-grid { grid-template-columns: 1fr; }
+  .hero-panel { display: none; }
+  .about-grid { grid-template-columns: 1fr; }
+  .about-img-wrap { display: none; }
+  .skills-grid { grid-template-columns: 1fr 1fr; }
+  .contact-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 640px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .about-cards { grid-template-columns: 1fr; }
+  .contact-info { grid-template-columns: 1fr; }
+  .nav-links { display: none; }
+  .nav-status { display: none; }
+  #nav-toggle { display: block; }
+  .hero-stats { gap: 20px; }
+}
+</style>
 </head>
-<body class="bg-gray-50">
-    <!-- Header Section -->
-    <header class="w-full sticky top-0 z-50">
-        <!-- Top Bar - Slate background with Emerald accents -->
-        <div class="bg-[#334155] text-white py-2 px-4 md:px-8">
-            <div class="max-w-7xl mx-auto flex flex-col sm:flex-row justify-between items-center text-sm">
-                <!-- Contact Info -->
-                <div class="flex items-center space-x-4 mb-2 sm:mb-0">
-                    <a href="tel:+977 9805303811"
-                        class="flex items-center space-x-2 hover:text-[#10B981] transition-colors">
-                        <i class="fas fa-phone-alt text-[#10B981] text-xs"></i>
-                        <span>+977 9805303811</span>
-                    </a>
-                    <span class="text-gray-400 hidden sm:inline">|</span>
-                    <a href="mailto:pratik.rai2580@gmail.com"
-                        class="flex items-center space-x-2 hover:text-[#10B981] transition-colors">
-                        <i class="fas fa-envelope text-[#10B981] text-xs"></i>
-                        <span>pratik.rai2580@gmail.com</span>
-                    </a>
-                </div>
+<body>
 
-                <!-- Social Media Links -->
-                <div class="flex items-center space-x-4">
-                    <a href="https://github.com/Sekaidim2002" class="social-icon" target="_blank">
-                        <i class="fab fa-github text-lg"></i>
-                    </a>
-                    <a href="https://www.linkedin.com/in/pratik-rai-4b07a41ab/" class="social-icon" target="_blank">
-                        <i class="fab fa-linkedin-in text-lg"></i>
-                    </a>
-                    <a href="https://www.facebook.com/pratika.ra.i.329839" class="social-icon" target="_blank">
-                        <i class="fab fa-facebook-f text-lg"></i>
-                    </a>
-                    <a href="https://wa.me/98055303811" target="_blank">
-                        <i class="fa-brands fa-whatsapp"></i>
-                    </a>
-                    <a href="https://www.instagram.com/sekaidim/" class="social-icon" target="_blank">
-                        <i class="fab fa-instagram text-lg"></i>
-                    </a>
-                </div>
-            </div>
+<!-- ── TOPBAR ── -->
+<header id="topbar">
+  <div id="topbar-inner">
+    <div class="nav-logo">
+      <span class="prompt">pratik@rai</span><span class="muted">:</span><span style="color:var(--amber)">~</span><span class="muted">$</span> <span class="glow">_portfolio</span>
+    </div>
+    <nav class="nav-links">
+      <a href="#home">home</a>
+      <a href="#about">about</a>
+      <a href="#skills">skills</a>
+      <a href="#contact">contact</a>
+    </nav>
+    <div class="nav-status">
+      <span class="status-dot"></span>
+      <span>ONLINE</span>
+      <span class="muted">|</span>
+      <span id="sys-time">00:00:00</span>
+    </div>
+    <button id="nav-toggle" onclick="document.getElementById('mobile-nav').classList.toggle('open')">≡</button>
+  </div>
+  <nav id="mobile-nav">
+    <a href="#home" onclick="this.parentElement.classList.remove('open')">home</a>
+    <a href="#about" onclick="this.parentElement.classList.remove('open')">about</a>
+    <a href="#skills" onclick="this.parentElement.classList.remove('open')">skills</a>
+    <a href="#contact" onclick="this.parentElement.classList.remove('open')">contact</a>
+  </nav>
+</header>
+
+<main>
+
+<!-- ── HERO ── -->
+<section id="home">
+  <div class="ascii-art">
+██████╗ ██████╗  █████╗ ████████╗██╗██╗  ██╗    ██████╗  █████╗ ██╗
+██╔══██╗██╔══██╗██╔══██╗╚══██╔══╝██║██║ ██╔╝    ██╔══██╗██╔══██╗██║
+██████╔╝██████╔╝███████║   ██║   ██║█████╔╝     ██████╔╝███████║██║
+██╔═══╝ ██╔══██╗██╔══██║   ██║   ██║██╔═██╗     ██╔══██╗██╔══██║██║
+██║     ██║  ██║██║  ██║   ██║   ██║██║  ██╗    ██║  ██║██║  ██║██║
+╚═╝     ╚═╝  ╚═╝╚═╝  ╚═╝   ╚═╝   ╚═╝╚═╝  ╚═╝   ╚═╝  ╚═╝╚═╝  ╚═╝╚═╝</div>
+
+  <div class="hero-grid">
+    <div>
+      <div class="hero-prompt">pratik@rai:~$ whoami</div>
+      <div class="hero-name">Pratik Rai<span class="cursor"></span></div>
+      <div class="hero-role"><span class="amber">> </span><span id="typing-role"></span></div>
+      <div style="color:var(--muted); font-size:12px; margin-bottom:20px;">// Full Stack Developer &amp; Mentor @ Code IT Dharan, Nepal</div>
+      <p class="hero-desc">
+        Crafting robust web applications and mentoring the next generation of developers at <span class="hl">Code IT Dharan</span>. Passionate about clean code, scalable architecture, and real-world problem solving.
+      </p>
+
+      <div class="hero-stats">
+        <div class="stat-item">
+          <div class="stat-num">2+</div>
+          <div class="stat-bar">[████████░░]</div>
+          <div class="stat-label">yrs_exp</div>
         </div>
+        <div class="stat-item">
+          <div class="stat-num">18+</div>
+          <div class="stat-bar">[████████████░░░]</div>
+          <div class="stat-label">projects</div>
+        </div>
+        <div class="stat-item">
+          <div class="stat-num" style="color:var(--amber);text-shadow:0 0 6px rgba(255,176,0,0.5)">08+</div>
+          <div class="stat-bar" style="color:var(--amber)">[████░░░░░░]</div>
+          <div class="stat-label">mentored</div>
+        </div>
+      </div>
 
-        <!-- Main Navigation -->
-        <nav class="bg-white shadow-md py-4 px-4 md:px-8">
-            <div class="max-w-7xl mx-auto flex justify-between items-center">
-                <!-- Logo/Brand -->
-                <div class="flex items-center space-x-2">
-                    <div class="w-10 h-10 bg-[#10B981] rounded-lg flex items-center justify-center">
-                        <i class="fas fa-code text-white text-xl"></i>
-                    </div>
-                    <div>
-                        <h1 class="text-xl font-bold text-[#334155]">pratik rai</h1>
-                        <p class="text-xs text-gray-500">Full Stack Developer & Mentor</p>
-                    </div>
-                </div>
+      <div class="hero-btns">
+        <a href="#contact" class="btn">hire_me</a>
+        <a href="/images/cv.pdf" target="_blank" class="btn btn-amber">resume.pdf</a>
+      </div>
 
-                <!-- Desktop Navigation - Right side -->
-                <div class="hidden md:flex items-center space-x-8">
-                    <a href="#home" class="nav-link text-[#334155] font-medium">Home</a>
-                    <a href="#about" class="nav-link text-[#334155] font-medium">About</a>
-                    <a href="#skills" class="nav-link text-[#334155] font-medium">Skills</a>
-                    <!-- <a href="#projects" class="nav-link text-[#334155] font-medium">Projects</a> -->
-                    <a href="#contact" class="nav-link text-[#334155] font-medium">Contact</a>
+      <div class="tech-stack-label">tech_stack</div>
+      <div class="tech-tags">
+        <span class="tech-tag">laravel</span>
+        <span class="tech-tag">react</span>
+        <span class="tech-tag">vue</span>
+        <span class="tech-tag">node.js</span>
+        <span class="tech-tag">python</span>
+        <span class="tech-tag">php</span>
+        <span class="tech-tag">docker</span>
+        <span class="tech-tag">mysql</span>
+      </div>
+    </div>
 
-                    <!-- Mentor Badge -->
-                    <div class="bg-[#10B981] bg-opacity-10 px-4 py-2 rounded-full flex items-center space-x-2">
-                        <i class="fas fa-chalkboard-teacher text-[#10B981]"></i>
-                        <span class="text-[#10B981] font-semibold text-sm">Code IT Dharan</span>
-                    </div>
-                </div>
+    <!-- RIGHT PANEL -->
+    <div>
+      <div class="hero-panel">
+        <div class="hero-panel-title">// sys_info.json</div>
+        <div class="hero-panel-body">
+          <div class="sys-line"><span class="sys-key">hostname</span><span class="sys-val">pratik-rai.dev</span></div>
+          <div class="sys-line"><span class="sys-key">os</span><span class="sys-val">Ubuntu 22.04 LTS</span></div>
+          <div class="sys-line"><span class="sys-key">uptime</span><span class="sys-val">2+ years</span></div>
+          <div class="sys-line"><span class="sys-key">location</span><span class="sys-val amber">Dharan, Nepal</span></div>
+          <div class="sys-line"><span class="sys-key">role</span><span class="sys-val">fullstack_dev</span></div>
+          <div class="sys-line"><span class="sys-key">employer</span><span class="sys-val amber">Code IT Dharan</span></div>
+          <div class="sys-line"><span class="sys-key">primary_lang</span><span class="sys-val">PHP / JS</span></div>
+          <div class="sys-line"><span class="sys-key">db_pref</span><span class="sys-val">MySQL / Mongo</span></div>
+          <div class="sys-line"><span class="sys-key">mentored</span><span class="sys-val">08+ students</span></div>
+          <div class="sys-line"><span class="sys-key">email</span><span class="sys-val amber" style="font-size:11px">pratik.rai2580@gmail.com</span></div>
+          <div class="sys-line"><span class="sys-key">phone</span><span class="sys-val">+977 9805303811</span></div>
+          <div class="available-badge">
+            <span class="dot"></span>
+            <span style="font-size:11px;text-shadow:var(--glow-sm)">STATUS: AVAILABLE FOR WORK</span>
+          </div>
+        </div>
+      </div>
 
-                <!-- Mobile Menu Button -->
-                <button id="menuBtn" class="md:hidden text-[#334155] focus:outline-none">
-                    <i class="fas fa-bars text-2xl"></i>
-                </button>
+      <div style="margin-top:14px; font-size:11px; color:var(--muted); line-height:2;">
+        <div><span style="color:var(--amber)">$</span> git log --oneline -3</div>
+        <div>&nbsp; <span style="color:#3a7a3a">a3f1c2b</span> feat: add react dashboard module</div>
+        <div>&nbsp; <span style="color:#3a7a3a">9e2d811</span> fix: optimize laravel query perf</div>
+        <div>&nbsp; <span style="color:#3a7a3a">7b4f900</span> docs: update mentoring curriculum</div>
+        <div style="margin-top:8px"><span style="color:var(--amber)">$</span> <span class="cursor" style="width:7px;height:12px;display:inline-block"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── ABOUT ── -->
+<section id="about">
+  <div class="section-header">
+    <div class="section-cmd">about_me.log</div>
+    <div class="section-title">// ABOUT_ME</div>
+    <div class="section-sub">> reading profile data...</div>
+  </div>
+
+  <div class="divider">===================================================================================</div>
+  <br>
+
+  <div class="about-grid">
+    <div class="about-img-wrap">
+      <div class="about-img-frame">
+        <span class="about-img-corner tl muted">┌─</span>
+        <span class="about-img-corner tr muted">─┐</span>
+        <img src="images/img2.jpg" alt="Pratik Rai">
+        <div class="about-img-label">// pratik_rai.jpg &nbsp; <span class="amber">[LOADED]</span></div>
+      </div>
+      <div style="border:1px solid var(--border); padding:12px; margin-top:12px; font-size:12px;">
+        <div class="sys-line" style="font-size:11px"><span class="sys-key">process</span><span class="sys-val">mentor.exe</span></div>
+        <div class="sys-line" style="font-size:11px"><span class="sys-key">students_served</span><span class="sys-val amber">08+</span></div>
+        <div class="sys-line" style="font-size:11px"><span class="sys-key">institution</span><span class="sys-val">Code IT Dharan</span></div>
+        <div class="sys-line" style="font-size:11px"><span class="sys-key">mode</span><span class="sys-val">hands-on / project-based</span></div>
+      </div>
+    </div>
+
+    <div>
+      <div class="about-log">
+        <div class="log-line">
+          <span class="log-ts">[INFO]</span>
+          <span class="log-msg">I'm a passionate <span class="hl">Full Stack Developer</span> based in Dharan, Nepal.</span>
+        </div>
+        <div class="log-line">
+          <span class="log-ts">[INFO]</span>
+          <span class="log-msg">Over <span class="hl">2+ years</span> building modern, performant web applications.</span>
+        </div>
+        <div class="log-line">
+          <span class="log-ts">[INFO]</span>
+          <span class="log-msg">Specialise in <span class="hl">Laravel</span>, <span class="hl">React</span>, <span class="hl">Node.js</span>, <span class="hl">Vue</span> &amp; <span class="hl">Python</span>.</span>
+        </div>
+        <div class="log-line">
+          <span class="log-ts">[INFO]</span>
+          <span class="log-msg">Lead training &amp; mentoring at <span class="hl">Code IT Dharan</span>.</span>
+        </div>
+        <div class="log-line">
+          <span class="log-ts">[INFO]</span>
+          <span class="log-msg">Helped launch careers through hands-on, real-world projects.</span>
+        </div>
+        <div class="log-line">
+          <span class="log-ts" style="color:var(--amber)">[WARN]</span>
+          <span class="log-msg" style="color:#7a6a3a">High caffeine dependency detected in dev environment.</span>
+        </div>
+        <div class="log-line">
+          <span class="log-ts" style="color:var(--fg)">[OK]</span>
+          <span class="log-msg">Open to <span class="hl">remote work</span>, <span class="hl">freelance</span> &amp; <span class="hl">mentoring</span> opportunities.</span>
+        </div>
+      </div>
+
+      <div class="about-cards">
+        <div class="about-card">
+          <div class="about-card-icon">❯_</div>
+          <div class="about-card-title">Clean Code</div>
+          <div class="about-card-body">Best practices, maintainability, performance &amp; security-first architecture.</div>
+        </div>
+        <div class="about-card">
+          <div class="about-card-icon">/??</div>
+          <div class="about-card-title">Mentoring</div>
+          <div class="about-card-body">Sharing knowledge from beginner concepts to production-grade systems.</div>
+        </div>
+      </div>
+
+      <div style="margin-top:20px; display:flex; gap:12px; flex-wrap:wrap;">
+        <a href="#contact" class="btn">contact_me</a>
+        <a href="#" class="btn btn-amber">download_cv</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ── SKILLS ── -->
+<section id="skills">
+  <div class="section-header">
+    <div class="section-cmd">skills --list</div>
+    <div class="section-title">// SKILLS</div>
+    <div class="section-sub">> parsing skill_tree... [OK]</div>
+  </div>
+
+  <div class="divider">===================================================================================</div>
+  <br>
+
+  <div class="skills-grid">
+
+    <!-- Frontend -->
+    <div class="skill-pane">
+      <div class="skill-pane-head">
+        <span class="cat">[FE]</span>
+        <span>Frontend</span>
+      </div>
+      <div class="skill-pane-body">
+        <div class="skill-tags">
+          <span class="skill-tag">HTML5</span>
+          <span class="skill-tag">CSS3</span>
+          <span class="skill-tag">JavaScript</span>
+          <span class="skill-tag">React</span>
+          <span class="skill-tag">Vue</span>
+          <span class="skill-tag">Bootstrap</span>
+          <span class="skill-tag">Tailwind</span>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>proficiency</span><span>83%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:83%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Backend -->
+    <div class="skill-pane">
+      <div class="skill-pane-head">
+        <span class="cat">[BE]</span>
+        <span>Backend</span>
+      </div>
+      <div class="skill-pane-body">
+        <div class="skill-tags">
+          <span class="skill-tag">PHP</span>
+          <span class="skill-tag">Laravel</span>
+          <span class="skill-tag">Python</span>
+          <span class="skill-tag">Node.js</span>
+          <span class="skill-tag">Express</span>
+          <span class="skill-tag">Firebase</span>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>proficiency</span><span>91%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:91%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Data & DevOps -->
+    <div class="skill-pane">
+      <div class="skill-pane-head">
+        <span class="cat">[DB]</span>
+        <span>Data &amp; DevOps</span>
+      </div>
+      <div class="skill-pane-body">
+        <div class="skill-tags">
+          <span class="skill-tag">MySQL</span>
+          <span class="skill-tag">MongoDB</span>
+          <span class="skill-tag">PostgreSQL</span>
+          <span class="skill-tag">Git</span>
+          <span class="skill-tag">Docker</span>
+          <span class="skill-tag">Linux</span>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>proficiency</span><span>75%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:75%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Tools -->
+    <div class="skill-pane">
+      <div class="skill-pane-head">
+        <span class="cat">[TL]</span>
+        <span>Tools &amp; Workflow</span>
+      </div>
+      <div class="skill-pane-body">
+        <div class="skill-tags">
+          <span class="skill-tag">GitHub</span>
+          <span class="skill-tag">GitLab</span>
+          <span class="skill-tag">VS Code</span>
+          <span class="skill-tag">Figma</span>
+          <span class="skill-tag">Postman</span>
+          <span class="skill-tag">Jira</span>
+        </div>
+        <div class="skill-bar-row">
+          <div class="skill-bar-label"><span>proficiency</span><span>80%</span></div>
+          <div class="bar-track"><div class="bar-fill" style="width:80%"></div></div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Soft Skills -->
+    <div class="skill-pane">
+      <div class="skill-pane-head">
+        <span class="cat">[PS]</span>
+        <span>Professional</span>
+      </div>
+      <div class="skill-pane-body">
+        <div class="skill-tags">
+          <span class="skill-tag">Mentoring</span>
+          <span class="skill-tag">Leadership</span>
+          <span class="skill-tag">Agile/Scrum</span>
+          <span class="skill-tag">Problem Solving</span>
+          <span class="skill-tag">Tech Writing</span>
+          <span class="skill-tag">Communication</span>
+        </div>
+        <div style="margin-top:10px; font-size:10px; color:var(--fg); text-shadow:var(--glow-sm); text-transform:uppercase; letter-spacing:0.1em;">
+          [OK] core_strengths loaded
+        </div>
+      </div>
+    </div>
+
+    <!-- Exploring -->
+    <div class="skill-pane" style="border-color: rgba(255,176,0,0.3);">
+      <div class="skill-pane-head" style="background:rgba(255,176,0,0.05);">
+        <span style="color:var(--amber)">[NEW]</span>
+        <span style="color:var(--amber)">Exploring</span>
+      </div>
+      <div class="skill-pane-body">
+        <div class="skill-tags">
+          <span class="skill-tag" style="border-color:rgba(255,176,0,0.4); color:#7a6a3a">AWS</span>
+          <span class="skill-tag" style="border-color:rgba(255,176,0,0.4); color:#7a6a3a">TensorFlow</span>
+          <span class="skill-tag" style="border-color:rgba(255,176,0,0.4); color:#7a6a3a">React Native</span>
+          <span class="skill-tag" style="border-color:rgba(255,176,0,0.4); color:#7a6a3a">LangChain</span>
+        </div>
+        <div class="learning-badge loading-spinner">always_learning</div>
+      </div>
+    </div>
+
+  </div>
+
+  <div style="margin-top:20px; font-size:11px; color:var(--muted);">
+    <span style="color:var(--fg)">$</span> echo "continuous learner, passionate about clean architecture &amp; mentoring."
+    <br>
+    <span style="color:#3a7a3a">continuous learner, passionate about clean architecture &amp; mentoring.</span>
+  </div>
+</section>
+
+<!-- ── CONTACT ── -->
+<section id="contact">
+  <div class="section-header">
+    <div class="section-cmd">contact --init</div>
+    <div class="section-title">// CONTACT</div>
+    <div class="section-sub">> establishing connection...</div>
+  </div>
+
+  <div class="divider">===================================================================================</div>
+  <br>
+
+  <div class="contact-grid">
+    <!-- LEFT -->
+    <div>
+      <div style="font-size:12px; color:var(--muted); margin-bottom:16px; line-height:1.8;">
+        <span style="color:var(--amber)">// </span>Whether it's a full-stack project, mentoring, or just a tech chat —<br>
+        I'm always open to new connections. Reach out through any channel below.
+      </div>
+
+      <div class="contact-info">
+        <div class="contact-card">
+          <div class="contact-card-key">email</div>
+          <a href="mailto:pratik.rai2580@gmail.com" class="contact-card-val" style="font-size:11px">pratik.rai2580@gmail.com</a>
+          <div class="contact-card-note">// reply within 24h</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-key">phone</div>
+          <a href="tel:+9779805303811" class="contact-card-val">+977 9805303811</a>
+          <div class="contact-card-note">// weekdays 9am-6pm</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-key">location</div>
+          <div class="contact-card-val">Dharan, Nepal</div>
+          <div class="contact-card-note">// Code IT Dharan</div>
+        </div>
+        <div class="contact-card">
+          <div class="contact-card-key">mentoring</div>
+          <div class="contact-card-val">Sat–Thu</div>
+          <div class="contact-card-note">// 10am–5pm NPT</div>
+        </div>
+      </div>
+
+      <div style="font-size:11px; color:var(--muted); margin-bottom:8px; text-transform:uppercase; letter-spacing:0.1em;">// social_links</div>
+      <div class="social-row">
+        <a href="https://github.com/Sekaidim2002" class="social-btn" target="_blank">github</a>
+        <a href="https://www.linkedin.com/in/pratik-rai-4b07a41ab/" class="social-btn" target="_blank">linkedin</a>
+        <a href="https://www.facebook.com/pratika.ra.i.329839" class="social-btn" target="_blank">facebook</a>
+        <a href="https://wa.me/98055303811" class="social-btn" target="_blank">whatsapp</a>
+        <a href="https://www.instagram.com/sekaidim/" class="social-btn" target="_blank">instagram</a>
+      </div>
+
+      <div style="margin-top:20px; font-size:11px; line-height:1.9; color:var(--muted);">
+        <div><span style="color:var(--amber)">$</span> ping pratik-rai.dev</div>
+        <div>&nbsp; PING pratik-rai.dev: 56 bytes</div>
+        <div>&nbsp; 64 bytes from pratik: icmp_seq=1 ttl=64 time=1ms</div>
+        <div>&nbsp; <span style="color:var(--fg)">--- 1 packets, 0% packet loss ---</span></div>
+      </div>
+    </div>
+
+    <!-- RIGHT: FORM -->
+    <div>
+      <div class="form-wrap">
+        <div class="form-title">// compose_message.sh</div>
+        <div class="form-body">
+          <div class="form-field">
+            <label class="form-label" for="name">full_name</label>
+            <div class="form-input-wrap">
+              <span class="prompt-char">$</span>
+              <input class="form-input" type="text" id="name" name="name" placeholder="Pratik Rai" autocomplete="off">
             </div>
-
-            <!-- Mobile Navigation Menu -->
-            <div id="mobileMenu"
-                class="mobile-menu hidden md:hidden mt-4 bg-white rounded-lg shadow-xl absolute left-4 right-4 z-50 p-4 border-t-4 border-[#10B981]">
-                <div class="flex flex-col space-y-3">
-                    <a href="#home"
-                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Home</a>
-                    <a href="#about"
-                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">About</a>
-                    <a href="#skills"
-                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Skills</a>
-                    <a href="#projects"
-                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Projects</a>
-                    <a href="#contact"
-                        class="nav-link text-[#334155] font-medium px-4 py-2 hover:bg-gray-50 rounded">Contact</a>
-
-                    <div class="pt-2 mt-2 border-t border-gray-200">
-                        <div class="bg-[#10B981] bg-opacity-10 px-4 py-3 rounded-lg">
-                            <div class="flex items-center space-x-2">
-                                <i class="fas fa-map-marker-alt text-[#10B981]"></i>
-                                <span class="text-[#334155] font-medium">Code IT Dharan, Nepal</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="email">email_addr</label>
+            <div class="form-input-wrap">
+              <span class="prompt-char">$</span>
+              <input class="form-input" type="email" id="email" name="email" placeholder="you@example.com" autocomplete="off">
             </div>
-        </nav>
-    </header>
-
-
-    <main>
-        <!-- Hero Section -->
-        <section id="home" class="relative py-8 md:py-10 overflow-hidden bg-gradient-to-br from-gray-50 to-white">
-            <!-- Background Decorative Elements -->
-            <div class="absolute top-0 right-0 w-64 h-64 bg-[#10B981] opacity-5 rounded-full -mr-32 -mt-32"></div>
-            <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#334155] opacity-5 rounded-full -ml-48 -mb-48"></div>
-
-            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-                <div class="grid md:grid-cols-2 gap-12 items-center">
-
-                    <!-- Left Content -->
-                    <div class="space-y-6">
-                        <!-- Welcome Badge -->
-                        <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-4 py-2">
-                            <i class="fas fa-code text-[#10B981] mr-2"></i>
-                            <span class="text-[#10B981] font-medium text-sm">Welcome to my portfolio</span>
-                        </div>
-
-                        <!-- Name & Title with Typing Animation -->
-                        <div class="space-y-2">
-                            <h2 class="text-[#334155] text-lg md:text-xl font-medium">Hi, I'm</h2>
-                            <div class="text-4xl md:text-5xl font-bold text-[#10B981]">
-                                <span id="typing-role"></span>
-                                <span class="typing-cursor"></span>
-                            </div>
-                        </div>
-
-                        <!-- Description -->
-                        <p class="text-gray-600 text-lg leading-relaxed max-w-lg">
-                            Crafting robust web applications and mentoring the next generation of developers at
-                            <span class="text-[#10B981] font-semibold">Code IT Dharan</span>. Passionate about clean
-                            code
-                            and innovative solutions.
-                        </p>
-
-                        <!-- Stats / Highlights -->
-                        <div class="flex flex-wrap gap-6 pt-4">
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-[#334155]">2+</div>
-                                <div class="text-sm text-gray-500">Years Experience</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-[#334155]">18+</div>
-                                <div class="text-sm text-gray-500">Projects Completed</div>
-                            </div>
-                            <div class="text-center">
-                                <div class="text-3xl font-bold text-[#334155]">08+</div>
-                                <div class="text-sm text-gray-500">Students Mentored</div>
-                            </div>
-                        </div>
-
-                        <!-- CTA Buttons -->
-                        <div class="flex flex-wrap gap-4 pt-4">
-                            <a href="#contact"
-                                class="group relative px-8 py-4 bg-[#10B981] text-white font-semibold rounded-lg overflow-hidden transition-all hover:bg-[#0e9e6e] hover:shadow-lg">
-                                <span class="relative z-10">Hire Me</span>
-                                <div
-                                    class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left opacity-20">
-                                </div>
-                            </a>
-
-                            <a href="#projects"
-                                class="px-8 py-4 bg-white text-[#334155] font-semibold rounded-lg border-2 border-[#334155] hover:bg-[#334155] hover:text-white transition-all hover:shadow-lg">
-                                View Projects
-                            </a>
-
-                            <a href="/images/cv.pdf" target="_blank"
-                                class="px-8 py-4 bg-[#334155] bg-opacity-5 text-[#334155] font-semibold rounded-lg hover:bg-[#334155] hover:text-white transition-all hover:shadow-lg">
-                                <i class="fas fa-download mr-2"></i> Resume
-                            </a>
-                        </div>
-
-                        <!-- Tech Stack Icons -->
-                        <div class="pt-6">
-                            <p class="text-sm text-gray-500 mb-3">Tech Stack & Tools</p>
-                            <div class="flex flex-wrap gap-3">
-                                <span
-                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
-                                    <i class="fab fa-laravel text-[#FF2D20]"></i>
-                                </span>
-                                <span
-                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
-                                    <i class="fab fa-python text-[#3776AB]"></i>
-                                </span>
-                                <span
-                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
-                                    <i class="fab fa-js text-[#F7DF1E]"></i>
-                                </span>
-                                <span
-                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
-                                    <i class="fab fa-react text-[#61DAFB]"></i>
-                                </span>
-                                <span
-                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
-                                    <i class="fab fa-vuejs text-[#4FC08D]"></i>
-                                </span>
-                                <span
-                                    class="px-3 py-2 bg-white rounded-lg shadow-sm border border-gray-200 hover:border-[#10B981] transition">
-                                    <i class="fab fa-php text-[#777BB4]"></i>
-                                </span>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right Content - Image/Placeholder -->
-                    <div class="relative flex justify-center items-center">
-                        <!-- Main Image Container -->
-                        <div class="relative w-full max-w-md mx-auto">
-                            <!-- Background Decoration -->
-                            <div class="absolute inset-0 bg-[#10B981] rounded-3xl rotate-6 opacity-10"></div>
-                            <div class="absolute inset-0 bg-[#334155] rounded-3xl -rotate-3 opacity-10"></div>
-
-                            <!-- Image/Placeholder Card -->
-                            <div class="relative bg-white rounded-3xl shadow-2xl overflow-hidden border-4 border-white">
-                                <!-- Gradient Overlay -->
-                                <div class="absolute inset-0 bg-gradient-to-t from-[#334155] to-transparent opacity-20">
-                                </div>
-
-                                <!-- Placeholder/Image -->
-                                <div
-                                    class="aspect-square bg-gradient-to-br from-gray-100 to-gray-200 flex items-center justify-center">
-                                    <img src="images/meme.jpg" alt="pratik rai"
-                                        class="w-full h-full object-cover">
-                                </div>
-
-                                <!-- Floating Badges -->
-                                <div
-                                    class="absolute top-4 left-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
-                                    <div class="flex items-center gap-2">
-                                        <div class="w-2 h-2 bg-green-500 rounded-full animate-pulse"></div>
-                                        <span class="text-sm font-medium text-[#334155]">Available for work</span>
-                                    </div>
-                                </div>
-
-                                <div
-                                    class="absolute bottom-4 right-4 bg-white/95 backdrop-blur-sm px-4 py-2 rounded-lg shadow-lg">
-                                    <div class="flex items-center gap-2">
-                                        <i class="fas fa-map-marker-alt text-[#10B981]"></i>
-                                        <span class="text-sm font-medium text-[#334155]">Dharan, Nepal</span>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                        <!-- Decorative Dots -->
-                        <div class="absolute -z-10 -bottom-4 -right-4 w-32 h-32">
-                            <div class="grid grid-cols-3 gap-2">
-                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
-                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
-                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
-                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
-                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
-                                <div class="w-2 h-2 bg-[#10B981] rounded-full opacity-30"></div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="subject">subject</label>
+            <div class="form-input-wrap">
+              <span class="prompt-char">$</span>
+              <input class="form-input" type="text" id="subject" name="subject" placeholder="project_inquiry / mentoring" autocomplete="off">
             </div>
-        </section>
-
-
-        <!-- About Section -->
-        <section id="about" class="py-16 md:py-24 bg-white relative overflow-hidden">
-            <!-- Subtle Background Decorations -->
-            <div class="absolute top-0 left-0 w-96 h-96 bg-[#10B981] opacity-5 rounded-full -ml-48 -mt-32"></div>
-            <div class="absolute bottom-0 right-0 w-80 h-80 bg-[#334155] opacity-5 rounded-full -mr-40 -mb-40"></div>
-
-            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-                <!-- Section Header -->
-                <div class="text-center mb-12 md:mb-16">
-                    <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-5 py-2 mb-4">
-                        <i class="fas fa-user-circle text-[#10B981] mr-2"></i>
-                        <span class="text-[#10B981] font-medium text-sm uppercase tracking-wide">About Me</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-[#334155] mb-4">
-                        Get to Know <span class="text-[#10B981]">Me</span>
-                    </h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                        Full Stack Developer & Mentor passionate about building scalable applications and helping others
-                        grow in tech.
-                    </p>
-                </div>
-
-                <div class="grid md:grid-cols-12 gap-10 lg:gap-16 items-center">
-                    <!-- Left - Image / Visual -->
-                    <div class="md:col-span-5 lg:col-span-4 relative">
-                        <div class="relative rounded-3xl overflow-hidden shadow-2xl border-8 border-white">
-                            <!-- Decorative layers -->
-                            <div class="absolute inset-0 bg-gradient-to-br from-[#10B981]/10 to-transparent"></div>
-                            <div class="absolute inset-0 bg-gradient-to-t from-[#334155]/20 to-transparent"></div>
-
-                            <img src="images/img2.jpg" alt="pratik rai working on code"
-                                class="w-full h-full object-cover transform hover:scale-105 transition-transform duration-700">
-                        </div>
-
-                        <!-- Floating stats card -->
-                        <div
-                            class="absolute -bottom-6 -right-6 bg-white p-6 rounded-2xl shadow-xl border border-gray-100 hidden sm:block">
-                            <div class="text-center">
-                                <div class="text-4xl font-bold text-[#10B981]">08+</div>
-                                <div class="text-sm text-gray-600 mt-1">Students Mentored</div>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- Right - Content -->
-                    <div class="md:col-span-7 lg:col-span-8 space-y-8">
-                        <!-- Intro paragraph -->
-                        <div class="space-y-4">
-                            <h3 class="text-2xl md:text-3xl font-bold text-[#334155]">
-                                Hi, I'm pratik rai<span class="text-[#10B981]">.</span>
-                            </h3>
-                            <p class="text-gray-700 text-lg leading-relaxed">
-                                I'm a passionate <strong class="text-[#10B981]">Full Stack Developer</strong> and
-                                <strong class="text-[#10B981]">Mentor</strong> based in Dharan, Nepal.
-                                With over <strong>2 years</strong> of experience, I specialize in building modern,
-                                performant web applications using
-                                <strong>Laravel</strong>, <strong>React</strong>, <strong>Node.js</strong>,
-                                <strong>Vue</strong>, <strong>Python</strong> and more.
-                            </p>
-                            <p class="text-gray-700 text-lg leading-relaxed">
-                                Currently, I lead training and mentoring sessions at <strong class="text-[#10B981]">Code
-                                    IT Dharan</strong>,
-                                where I've helped 200+ students launch their careers in web development through hands-on
-                                projects and real-world problem solving.
-                            </p>
-                        </div>
-
-                        <!-- Personal highlights / What I do -->
-                        <div class="grid sm:grid-cols-2 gap-6 pt-4">
-                            <div
-                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 hover:border-[#10B981]/50 transition-colors group">
-                                <div
-                                    class="w-14 h-14 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#10B981] transition-colors">
-                                    <i
-                                        class="fas fa-code text-[#10B981] text-2xl group-hover:text-white transition-colors"></i>
-                                </div>
-                                <h4 class="text-xl font-semibold text-[#334155] mb-2">Clean & Scalable Code</h4>
-                                <p class="text-gray-600">
-                                    I follow best practices, write maintainable code, and focus on performance &
-                                    security.
-                                </p>
-                            </div>
-
-                            <div
-                                class="bg-gray-50 p-6 rounded-2xl border border-gray-100 hover:border-[#10B981]/50 transition-colors group">
-                                <div
-                                    class="w-14 h-14 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4 group-hover:bg-[#10B981] transition-colors">
-                                    <i
-                                        class="fas fa-chalkboard-teacher text-[#10B981] text-2xl group-hover:text-white transition-colors"></i>
-                                </div>
-                                <h4 class="text-xl font-semibold text-[#334155] mb-2">Teaching & Mentoring</h4>
-                                <p class="text-gray-600">
-                                    Passionate about sharing knowledge — from beginners to advanced concepts.
-                                </p>
-                            </div>
-                        </div>
-
-                        <!-- Extra info / CTA -->
-                        <div class="pt-6 flex flex-wrap gap-4">
-                            <a href="#contact"
-                                class="px-8 py-4 bg-[#10B981] text-white font-semibold rounded-lg hover:bg-[#0e9e6e] transition-all shadow-md hover:shadow-lg inline-flex items-center">
-                                <span>Let's Work Together</span>
-                                <i class="fas fa-arrow-right ml-2"></i>
-                            </a>
-
-                            <a href="#"
-                                class="px-8 py-4 border-2 border-[#334155] text-[#334155] font-semibold rounded-lg hover:bg-[#334155] hover:text-white transition-all inline-flex items-center">
-                                <i class="fas fa-download mr-2"></i>
-                                Download CV
-                            </a>
-                        </div>
-                    </div>
-                </div>
+          </div>
+          <div class="form-field">
+            <label class="form-label" for="message">message_body</label>
+            <div class="form-input-wrap" style="align-items:flex-start; padding-top:8px;">
+              <span class="prompt-char" style="padding-top:2px;">$</span>
+              <textarea class="form-textarea" id="message" name="message" rows="5" placeholder="tell me about your idea or question..."></textarea>
             </div>
-        </section>
+          </div>
+          <button type="submit" class="form-submit" onclick="handleSubmit(event)">SEND_MESSAGE</button>
+          <div id="form-status" style="font-size:11px; margin-top:10px; min-height:16px;"></div>
+          <div style="margin-top:12px; font-size:10px; color:var(--muted);">
+            <span style="color:var(--fg)">[OK]</span> your info is safe and will never be shared.
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
 
-        <!-- ===== NEW SKILLS SECTION (HERO STYLE) ===== -->
-        <section id="skills" class="relative py-16 md:py-24 bg-gray-50 overflow-hidden">
-            <!-- Background decorative elements -->
-            <div class="absolute top-0 right-0 w-72 h-72 bg-[#10B981] opacity-5 rounded-full -mr-36 -mt-36"></div>
-            <div class="absolute bottom-0 left-0 w-96 h-96 bg-[#334155] opacity-5 rounded-full -ml-48 -mb-48"></div>
+  <div style="margin-top:24px; text-align:center; font-size:11px; color:var(--muted);">
+    <span style="border:1px solid var(--border); padding:6px 20px; display:inline-flex; align-items:center; gap:8px;">
+      <span style="width:6px;height:6px;background:var(--fg);display:inline-block;animation:blink 2s step-end infinite;box-shadow:var(--glow-sm)"></span>
+      Based in Dharan, Nepal — open for remote work &amp; mentoring
+    </span>
+  </div>
+</section>
 
-            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-                <!-- Section Header with overline badge -->
-                <div class="text-center mb-12 md:mb-16">
-                    <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-5 py-2 mb-4">
-                        <i class="fas fa-code-branch text-[#10B981] mr-2"></i>
-                        <span class="text-[#10B981] font-medium text-sm uppercase tracking-wide">Expertise</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-[#334155] mb-4">
-                        Technical <span class="text-[#10B981]">Skills</span>
-                    </h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                        A comprehensive toolkit I use to build robust, scalable, and user-friendly applications.
-                    </p>
-                </div>
+</main>
 
-                <!-- Skills Grid – Hero style: cards with icons and proficiency -->
-                <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 lg:gap-8">
-                    <!-- Frontend Development -->
-                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-paint-brush text-[#10B981] text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-[#334155]">Frontend</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-html5 text-orange-500 mr-1"></i> HTML5</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-css3-alt text-blue-500 mr-1"></i> CSS3</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-js text-yellow-500 mr-1"></i> JavaScript</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-react text-[#61DAFB] mr-1"></i> React</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-vuejs text-green-500 mr-1"></i> Vue</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-bootstrap text-purple-500 mr-1"></i> Bootstrap</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-tailwindcss text-teal-500 mr-1"></i> Tailwind</span>
-                        </div>
-                        <!-- subtle proficiency indicator -->
-                        <div class="mt-4 flex items-center text-xs text-gray-500">
-                            <span class="mr-2">Proficiency</span>
-                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full w-10/12 bg-[#10B981] rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
+<!-- ── FOOTER ── -->
+<footer>
+  <div class="footer-inner">
+    <span><span class="prompt-path">pratik@rai:~$</span> <span style="color:var(--muted)">exit 0</span></span>
+    <span style="color:var(--muted)">&copy; 2025 pratik rai // all rights reserved</span>
+    <span style="color:var(--muted)">v1.0.0 <span style="color:var(--fg)">[stable]</span></span>
+  </div>
+</footer>
 
-                    <!-- Backend Development -->
-                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-server text-[#10B981] text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-[#334155]">Backend</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-php text-[#777BB4] mr-1"></i> PHP</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-laravel text-[#FF2D20] mr-1"></i> Laravel</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-python text-[#3776AB] mr-1"></i> Python</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-node text-green-600 mr-1"></i> Node.js</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-database text-gray-600 mr-1"></i> Express</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-fire text-orange-500 mr-1"></i> Firebase</span>
-                        </div>
-                        <div class="mt-4 flex items-center text-xs text-gray-500">
-                            <span class="mr-2">Proficiency</span>
-                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full w-11/12 bg-[#10B981] rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
+<script>
+// Clock
+function updateClock() {
+  const now = new Date();
+  const t = now.toTimeString().slice(0,8);
+  document.getElementById('sys-time').textContent = t;
+}
+setInterval(updateClock, 1000);
+updateClock();
 
-                    <!-- Database & DevOps -->
-                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-database text-[#10B981] text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-[#334155]">Data & DevOps</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-database text-blue-600 mr-1"></i> MySQL</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-mediumz text-[#334155] flex items-center"><i class="fas fa-leaf text-green-600 mr-1"></i> MongoDB</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-cloud text-blue-400 mr-1"></i> PostgreSQL</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-git-alt text-orange-600 mr-1"></i> Git</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-docker text-blue-500 mr-1"></i> Docker</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-terminal text-gray-700 mr-1"></i> Linux</span>
-                        </div>
-                        <div class="mt-4 flex items-center text-xs text-gray-500">
-                            <span class="mr-2">Proficiency</span>
-                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full w-9/12 bg-[#10B981] rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
+// Typing animation
+const roles = [
+  "Full Stack Developer",
+  "Tech Mentor",
+  "Laravel & React Specialist",
+  "Problem Solver",
+  "Open to Opportunities"
+];
+let ri = 0, ci = 0, del = false;
+const el = document.getElementById('typing-role');
+function type() {
+  const cur = roles[ri];
+  el.textContent = del ? cur.slice(0, ci - 1) : cur.slice(0, ci + 1);
+  del ? ci-- : ci++;
+  let spd = del ? 55 : 95;
+  if (!del && ci === cur.length) { spd = 2000; del = true; }
+  else if (del && ci === 0) { del = false; ri = (ri + 1) % roles.length; spd = 400; }
+  setTimeout(type, spd);
+}
+type();
 
-                    <!-- Tools & Workflow -->
-                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-tools text-[#10B981] text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-[#334155]">Tools & Workflow</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-github text-black mr-1"></i> GitHub</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-gitlab text-orange-500 mr-1"></i> GitLab</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-code text-blue-500 mr-1"></i> VS Code</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-pencil-ruler text-purple-500 mr-1"></i> Figma</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-cloud text-gray-500 mr-1"></i> Postman</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-chart-line text-green-600 mr-1"></i> Jira</span>
-                        </div>
-                        <div class="mt-4 flex items-center text-xs text-gray-500">
-                            <span class="mr-2">Proficiency</span>
-                            <div class="flex-1 h-1.5 bg-gray-200 rounded-full overflow-hidden">
-                                <div class="h-full w-10/12 bg-[#10B981] rounded-full"></div>
-                            </div>
-                        </div>
-                    </div>
+// Form submit mock
+function handleSubmit(e) {
+  e.preventDefault();
+  const status = document.getElementById('form-status');
+  status.textContent = '> transmitting...';
+  status.style.color = 'var(--amber)';
+  setTimeout(() => {
+    status.innerHTML = '<span style="color:var(--fg)">[OK]</span> message queued for delivery. expect a reply within 24h.';
+  }, 1200);
+}
 
-                    <!-- Soft Skills / Mentoring -->
-                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30">
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-users text-[#10B981] text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-[#334155]">Professional</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Mentoring</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Team Leadership</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Agile/Scrum</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Problem Solving</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Communication</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155]">Technical Writing</span>
-                        </div>
-                        <!-- no proficiency bar for soft skills, but a subtle badge -->
-                        <div class="mt-4">
-                            <span class="inline-block text-xs bg-[#10B981] bg-opacity-10 text-[#10B981] px-3 py-1 rounded-full">Core strengths</span>
-                        </div>
-                    </div>
+// Animate skill bars on scroll
+const bars = document.querySelectorAll('.bar-fill');
+const io = new IntersectionObserver(entries => {
+  entries.forEach(en => {
+    if (en.isIntersecting) {
+      const fill = en.target;
+      fill.style.width = fill.dataset.width;
+      io.unobserve(fill);
+    }
+  });
+}, { threshold: 0.3 });
 
-                    <!-- Currently Exploring / Learning -->
-                    <div class="skill-card bg-white rounded-2xl p-6 shadow-lg border border-gray-100 hover:border-[#10B981]/30 relative overflow-hidden">
-                        <!-- tiny decorative element -->
-                        <div class="absolute top-0 right-0 w-16 h-16 bg-[#10B981] opacity-5 rounded-bl-full"></div>
-                        <div class="flex items-center space-x-3 mb-4">
-                            <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center">
-                                <i class="fas fa-rocket text-[#10B981] text-xl"></i>
-                            </div>
-                            <h3 class="text-xl font-bold text-[#334155]">Exploring</h3>
-                        </div>
-                        <div class="flex flex-wrap gap-2">
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-aws text-orange-400 mr-1"></i> AWS</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fab fa-python text-[#3776AB] mr-1"></i> TensorFlow</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-mobile-alt text-gray-600 mr-1"></i> React Native</span>
-                            <span class="px-3 py-1.5 bg-gray-100 rounded-full text-sm font-medium text-[#334155] flex items-center"><i class="fas fa-robot text-green-600 mr-1"></i> LangChain</span>
-                        </div>
-                        <div class="mt-4 text-xs text-[#10B981] font-medium flex items-center">
-                            <i class="fas fa-spinner fa-pulse mr-1"></i> Always learning
-                        </div>
-                    </div>
-                </div>
+bars.forEach(bar => {
+  bar.dataset.width = bar.style.width;
+  bar.style.width = '0';
+  io.observe(bar);
+});
 
-                <!-- Optional bottom CTA / note -->
-                <div class="text-center mt-12">
-                    <p class="text-gray-500 flex items-center justify-center gap-2">
-                        <i class="fas fa-crown text-[#10B981]"></i>
-                        <span>Continuous learner, passionate about clean architecture and mentoring.</span>
-                    </p>
-                </div>
-            </div>
-        </section>
-
-                <section id="contact" class="relative py-16 md:py-24 bg-white overflow-hidden">
-            <!-- Background decorative elements (consistent with other sections) -->
-            <div class="absolute top-0 left-0 w-96 h-96 bg-[#10B981] opacity-5 rounded-full -ml-48 -mt-48"></div>
-            <div class="absolute bottom-0 right-0 w-80 h-80 bg-[#334155] opacity-5 rounded-full -mr-40 -mb-40"></div>
-            
-            <div class="max-w-7xl mx-auto px-4 md:px-8 relative z-10">
-                <!-- Section Header with badge -->
-                <div class="text-center mb-12 md:mb-16">
-                    <div class="inline-flex items-center bg-[#10B981] bg-opacity-10 rounded-full px-5 py-2 mb-4">
-                        <i class="fas fa-paper-plane text-[#10B981] mr-2"></i>
-                        <span class="text-[#10B981] font-medium text-sm uppercase tracking-wide">Get in touch</span>
-                    </div>
-                    <h2 class="text-4xl md:text-5xl font-bold text-[#334155] mb-4">
-                        Let's <span class="text-[#10B981]">Connect</span>
-                    </h2>
-                    <p class="text-gray-600 max-w-2xl mx-auto text-lg leading-relaxed">
-                        Have a project in mind or want to discuss mentoring? I'd love to hear from you.
-                    </p>
-                </div>
-
-                <!-- Contact grid: left info / right form -->
-                <div class="grid lg:grid-cols-2 gap-10 lg:gap-16">
-                    
-                    <!-- LEFT: Contact information cards -->
-                    <div class="space-y-8">
-                        <!-- Intro text -->
-                        <div class="bg-gray-50 p-8 rounded-3xl border border-gray-100 shadow-sm">
-                            <h3 class="text-2xl font-bold text-[#334155] mb-3">Let's build something great together</h3>
-                            <p class="text-gray-600 leading-relaxed">
-                                Whether it's about a full-stack project, mentoring opportunities, or just a tech chat, 
-                                I'm always open to new connections. Reach out via the form or directly through any of these channels.
-                            </p>
-                        </div>
-
-                        <!-- Contact details (cards) -->
-                        <div class="grid sm:grid-cols-2 gap-5">
-                            <!-- Email card -->
-                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
-                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
-                                    <i class="fas fa-envelope text-[#10B981] text-xl"></i>
-                                </div>
-                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Email</h4>
-                                <a href="mailto:pratik.rai2580@gmail.com" class="text-gray-600 hover:text-[#10B981] transition break-all">
-                                    pratik.rai2580@gmail.com
-                                </a>
-                                <p class="text-xs text-gray-400 mt-2">Reply within 24h</p>
-                            </div>
-
-                            <!-- Phone card -->
-                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
-                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
-                                    <i class="fas fa-phone-alt text-[#10B981] text-xl"></i>
-                                </div>
-                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Phone</h4>
-                                <a href="tel:+9779805303811" class="text-gray-600 hover:text-[#10B981] transition">
-                                    +977 9805303811
-                                </a>
-                                <p class="text-xs text-gray-400 mt-2">Weekdays 9am-6pm</p>
-                            </div>
-
-                            <!-- Location card -->
-                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
-                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
-                                    <i class="fas fa-map-marker-alt text-[#10B981] text-xl"></i>
-                                </div>
-                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Location</h4>
-                                <p class="text-gray-600">Dharan, Nepal</p>
-                                <p class="text-xs text-gray-400 mt-2">Code IT Dharan (mentoring hub)</p>
-                            </div>
-
-                            <!-- Mentoring hours card -->
-                            <div class="info-card bg-white p-6 rounded-2xl border border-gray-100 shadow-md hover:border-[#10B981]/30">
-                                <div class="w-12 h-12 bg-[#10B981] bg-opacity-10 rounded-xl flex items-center justify-center mb-4">
-                                    <i class="fas fa-chalkboard-teacher text-[#10B981] text-xl"></i>
-                                </div>
-                                <h4 class="text-lg font-semibold text-[#334155] mb-1">Mentoring hours</h4>
-                                <p class="text-gray-600">Sat-Thu, 10am-5pm</p>
-                                <p class="text-xs text-gray-400 mt-2">(closed on Fridays)</p>
-                            </div>
-                        </div>
-
-                        <!-- Social links with larger presence (consistent with top bar but more prominent) -->
-                        <div class="bg-gradient-to-r from-[#334155]/5 to-[#10B981]/5 p-6 rounded-3xl border border-gray-100">
-                            <p class="text-sm font-medium text-[#334155] mb-3 flex items-center"><i class="fab fa-connectdevelop text-[#10B981] mr-2"></i> Connect on social</p>
-                            <div class="flex flex-wrap gap-4">
-                                <a href="https://github.com/Sekaidim2002" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
-                                    <i class="fab fa-github text-[#334155] text-xl"></i>
-                                </a>
-                                <a href="https://www.linkedin.com/in/pratik-rai-4b07a41ab/" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
-                                    <i class="fab fa-linkedin-in text-[#334155] text-xl"></i>
-                                </a>
-                                <a href="https://www.facebook.com/pratika.ra.i.329839" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
-                                    <i class="fab fa-facebook-f text-[#334155] text-xl"></i>
-                                </a>
-                                <a href="https://wa.me/98055303811" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
-                                    <i class="fab fa-whatsapp text-[#334155] text-xl"></i>
-                                </a>
-                                <a href="https://www.instagram.com/sekaidim/" target="_blank" class="social-icon w-12 h-12 bg-white rounded-full flex items-center justify-center shadow-md hover:shadow-lg border border-gray-200">
-                                    <i class="fab fa-instagram text-[#334155] text-xl"></i>
-                                </a>
-                            </div>
-                        </div>
-                    </div>
-
-                    <!-- RIGHT: Contact form -->
-                    <div class="bg-white rounded-3xl shadow-xl border border-gray-100 p-6 md:p-8 lg:p-10">
-                        <div class="mb-6">
-                            <h3 class="text-2xl font-bold text-[#334155]">Send a message</h3>
-                            <p class="text-gray-500 text-sm mt-1">I'll get back to you as soon as possible.</p>
-                        </div>
-
-                        <form action="#" method="POST" class="space-y-5">
-                            <!-- Name field -->
-                            <div>
-                                <label for="name" class="block text-sm font-medium text-[#334155] mb-1">Full name</label>
-                                <input type="text" id="name" name="name" placeholder="Pratik Rai" 
-                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition">
-                            </div>
-
-                            <!-- Email field -->
-                            <div>
-                                <label for="email" class="block text-sm font-medium text-[#334155] mb-1">Email address</label>
-                                <input type="email" id="email" name="email" placeholder="you@example.com" 
-                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition">
-                            </div>
-
-                            <!-- Subject field -->
-                            <div>
-                                <label for="subject" class="block text-sm font-medium text-[#334155] mb-1">Subject</label>
-                                <input type="text" id="subject" name="subject" placeholder="Project inquiry / Mentoring" 
-                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition">
-                            </div>
-
-                            <!-- Message field -->
-                            <div>
-                                <label for="message" class="block text-sm font-medium text-[#334155] mb-1">Message</label>
-                                <textarea id="message" name="message" rows="5" placeholder="Tell me about your idea or question..." 
-                                    class="form-input w-full px-5 py-3 rounded-xl border border-gray-200 bg-gray-50 focus:bg-white transition resize-none"></textarea>
-                            </div>
-
-                            <!-- Submit button (emerald with effect) -->
-                            <button type="submit" 
-                                class="group relative w-full md:w-auto px-8 py-4 bg-[#10B981] text-white font-semibold rounded-xl overflow-hidden transition-all hover:bg-[#0e9e6e] hover:shadow-lg flex items-center justify-center gap-2">
-                                <span class="relative z-10">Send message</span>
-                                <i class="fas fa-paper-plane relative z-10 text-sm transition-transform group-hover:translate-x-1"></i>
-                                <div class="absolute inset-0 bg-white transform scale-x-0 group-hover:scale-x-100 transition-transform origin-left opacity-20"></div>
-                            </button>
-
-                            <!-- simple note -->
-                            <p class="text-xs text-gray-400 flex items-center gap-1 pt-2">
-                                <i class="fas fa-lock text-[#10B981]"></i> 
-                                Your info is safe and will never be shared.
-                            </p>
-                        </form>
-
-                        <!-- optional quick contact alternative -->
-                        <div class="mt-8 pt-6 border-t border-gray-100 flex flex-wrap items-center justify-between gap-4">
-                            <span class="text-sm text-gray-500">Prefer email?</span>
-                            <a href="mailto:pratik.rai2580@gmail.com" class="inline-flex items-center text-[#10B981] font-medium hover:underline">
-                                pratik.rai2580@gmail.com <i class="fas fa-arrow-right ml-1 text-xs"></i>
-                            </a>
-                        </div>
-                    </div>
-                </div>
-
-                <!-- Optional bottom decorative map / badge (simple card) -->
-                <div class="mt-16 text-center">
-                    <div class="inline-flex items-center gap-2 bg-gray-50 px-6 py-3 rounded-full border border-gray-200">
-                        <i class="fas fa-map-pin text-[#10B981]"></i>
-                        <span class="text-[#334155] font-medium">Based in Dharan, Nepal — open for remote work & mentoring</span>
-                        <span class="flex h-2 w-2 relative">
-                            <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-[#10B981] opacity-75"></span>
-                            <span class="relative inline-flex rounded-full h-2 w-2 bg-[#10B981]"></span>
-                        </span>
-                    </div>
-                </div>
-            </div>
-        </section>
-    </main>
-
-    <!-- JavaScript for Mobile Menu Toggle and Typing Animation -->
-    <script>
-        document.addEventListener('DOMContentLoaded', function () {
-            // Mobile Menu Toggle
-            const menuBtn = document.getElementById('menuBtn');
-            const mobileMenu = document.getElementById('mobileMenu');
-
-            menuBtn.addEventListener('click', function () {
-                mobileMenu.classList.toggle('hidden');
-
-                // Toggle menu icon between bars and times
-                const icon = menuBtn.querySelector('i');
-                if (mobileMenu.classList.contains('hidden')) {
-                    icon.className = 'fas fa-bars text-2xl';
-                } else {
-                    icon.className = 'fas fa-times text-2xl';
-                }
-            });
-
-            // Close mobile menu when clicking on a link
-            const mobileLinks = mobileMenu.querySelectorAll('a');
-            mobileLinks.forEach(link => {
-                link.addEventListener('click', function () {
-                    mobileMenu.classList.add('hidden');
-                    const icon = menuBtn.querySelector('i');
-                    icon.className = 'fas fa-bars text-2xl';
-                });
-            });
-
-            // Close mobile menu when clicking outside
-            document.addEventListener('click', function (event) {
-                if (!menuBtn.contains(event.target) && !mobileMenu.contains(event.target)) {
-                    mobileMenu.classList.add('hidden');
-                    const icon = menuBtn.querySelector('i');
-                    icon.className = 'fas fa-bars text-2xl';
-                }
-            });
-
-
-            const roleElement = document.getElementById('typing-role');
-
-            const roles = [
-                "pratik rai",
-                "Full Stack Developer",
-                "Tech Mentor",
-                "Laravel & React Specialist",
-                "Problem Solver",
-                "Open to Opportunities"
-            ];
-
-            let roleIndex = 0;
-            let charIndex = 0;
-            let isDeleting = false;
-
-            function typeRole() {
-                const currentRole = roles[roleIndex];
-
-                if (isDeleting) {
-                    roleElement.textContent = currentRole.substring(0, charIndex - 1);
-                    charIndex--;
-                } else {
-                    roleElement.textContent = currentRole.substring(0, charIndex + 1);
-                    charIndex++;
-                }
-
-                let speed = isDeleting ? 60 : 100;
-
-                if (!isDeleting && charIndex === currentRole.length) {
-                    speed = 2000;           // pause at end
-                    isDeleting = true;
-                } else if (isDeleting && charIndex === 0) {
-                    isDeleting = false;
-                    roleIndex = (roleIndex + 1) % roles.length;
-                    speed = 400;            // small pause before next word
-                }
-
-                setTimeout(typeRole, speed);
-            }
-
-            // Start typing
-            typeRole();
-        });
-    </script>
+// Close mobile nav on outside click
+document.addEventListener('click', e => {
+  const nav = document.getElementById('mobile-nav');
+  const btn = document.getElementById('nav-toggle');
+  if (!nav.contains(e.target) && !btn.contains(e.target)) {
+    nav.classList.remove('open');
+  }
+});
+</script>
 </body>
 </html>
